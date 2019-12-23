@@ -63,4 +63,24 @@ public class Node<obj extends Object> {
         return false;
     }
 
+    /**
+     * @requires addEdgeToChild(childName, edgeLabel) for some childName //TODO: make sure no need for !null checks
+     * @modifies none.
+     * @effects returns a string of the child connected to this node by the edgeLabel edge.
+     */
+    public String getChildByEdgeLabel(obj edgeLabel) { //TODO: use toString()
+        String string = "";
+        return string;
+    }
+
+    /**
+     * @requires addEdgeFromParent(parentName, edgeLabel) for some parentName //TODO: make sure no need for !null checks
+     * @modifies none.
+     * @effects returns a string of the parent connected to this node by the edgeLabel edge.
+     */
+    public String getParentByEdgeLabel(obj edgeLabel) { //TODO: use toString()
+        String string = "";
+        return string;
+    }
+
 }

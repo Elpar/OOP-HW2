@@ -50,8 +50,8 @@ public class BipartiteGraph<obj extends Object> {
      * @effects adds an edge from parentName node to childName node and updates the nodes accordingly.
      */
     public void addEdge(obj parentName, obj childName, obj edgeLabel) {
-        look in both of the lists: whiteNodes or blackNodes, then get(childName).addEdgeFromParent();
-        look in both of the lists: whiteNodes or blackNodes, then get(parentName).addEdgeToChild();
+       // look in both of the lists: whiteNodes or blackNodes, then get(childName).addEdgeFromParent();
+       // look in both of the lists: whiteNodes or blackNodes, then get(parentName).addEdgeToChild();
     }
 
     /**
@@ -99,7 +99,7 @@ public class BipartiteGraph<obj extends Object> {
      * @modifies none.
      * @effects returns a string of the child connected to the parrentName node by the edgeLabel edge.
      */
-    public String getChildByEdgeLabel(obj parentName, obj edgeLabel) {
+    public String getChildByEdgeLabel(obj parentName, obj edgeLabel) { //TODO: use toString()
         String string = "";
         return string;
     }
@@ -109,7 +109,7 @@ public class BipartiteGraph<obj extends Object> {
      * @modifies none.
      * @effects returns a string of the parent connected to the childName node by the edgeLabel edge.
      */
-    public String getParentByEdgeLabel(obj childName, obj edgeLabel) {
+    public String getParentByEdgeLabel(obj childName, obj edgeLabel) { //TODO: use toString()
         String string = "";
         return string;
     }
