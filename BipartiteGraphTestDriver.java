@@ -1,3 +1,6 @@
+
+package homework2;
+
 import java.util.*;
 
 /**
@@ -13,12 +16,9 @@ public class BipartiteGraphTestDriver {
      * @effects Constructs a new test driver.
      */
     public BipartiteGraphTestDriver () {
-    	// TODO: Implement this constructor
-       
-       
+       graphs = new HashMap<String, BipartiteGraph<String>>();
     }
 
-    
     /**
      * @requires graphName != null
      * @modifies this
@@ -26,12 +26,10 @@ public class BipartiteGraphTestDriver {
      * 			empty.
      */
     public void createGraph(String graphName) {
-        // TODO: Implement this method
-        
-    	
+        BipartiteGraph bg = new BipartiteGraph<String>();
+        graphs.put(graphName, bg);
     }
 
-    
     /**
      * @requires createGraph(graphName)
      *           && nodeName != null
@@ -43,12 +41,9 @@ public class BipartiteGraphTestDriver {
      * 			graph named graphName.
      */
     public void addBlackNode(String graphName, String nodeName) {
-    	// TODO: Implement this method
-    	
-    	
+        graphs.get(graphName).addBlackNode(nodeName);
     }
 
-    
     /**
      * @requires createGraph(graphName)
      *           && nodeName != null
@@ -60,12 +55,9 @@ public class BipartiteGraphTestDriver {
      * 			graph named graphName.
      */
     public void addWhiteNode(String graphName, String nodeName) {
-    	//TODO: Implement this method
-    	
-    	
+        graphs.get(graphName).addWhiteNode(nodeName);
     }
 
-    
     /**
      * @requires createGraph(graphName)
      *           && ((addBlackNode(parentName) && addWhiteNode(childName))
@@ -83,59 +75,44 @@ public class BipartiteGraphTestDriver {
     public void addEdge(String graphName,
     					String parentName, String childName, 
                         String edgeLabel) {
-    	//TODO: Implement this method
-    	
-    	
+    	graphs.get(graphName).addEdge(parentName, childName, edgeLabel);
     }
 
-    
     /**
      * @requires createGraph(graphName)
      * @return a space-separated list of the names of all the black nodes
      * 		   in the graph graphName, in alphabetical order.
      */
     public String listBlackNodes(String graphName) {
-    	//TODO: Implement this method
-    	
-    	
+    	return graphs.get(graphName).listBlackNodes();
     }
 
-    
     /**
      * @requires createGraph(graphName)
      * @return a space-separated list of the names of all the white nodes
      * 		   in the graph graphName, in alphabetical order.
      */
     public String listWhiteNodes(String graphName) {
-    	//TODO: Implement this method
-    	
-    	
+        return graphs.get(graphName).listWhiteNodes();
     }
 
-    
     /**
      * @requires createGraph(graphName) && createNode(parentName)
      * @return a space-separated list of the names of the children of
      * 		   parentName in the graph graphName, in alphabetical order.
      */
     public String listChildren(String graphName, String parentName) {
-    	//TODO: Implement this method
-    	
-    	
+    	return graphs.get(graphName).listChildren(parentName);
     }
 
-    
     /**
      * @requires createGraph(graphName) && createNode(childName)
      * @return a space-separated list of the names of the parents of
      * 		   childName in the graph graphName, in alphabetical order.
      */
     public String listParents(String graphName, String childName) {
-    	//TODO: Implement this method
-    	
-    	
+        return graphs.get(graphName).listChildren(childName);
     }
-
     
     /**
      * @requires addEdge(graphName, parentName, str, edgeLabel) for some
@@ -145,12 +122,9 @@ public class BipartiteGraphTestDriver {
      */
     public String getChildByEdgeLabel(String graphName, String parentName,
     								   String edgeLabel) {
-    	//TODO: Implement this method
-    	
-    	
+    	return graphs.get(graphName).getChildByEdgeLabel(parentName,edgeLabel);
     }
 
-    
     /**
      * @requires addEdge(graphName, str, childName, edgeLabel) for some
      * 			 string str
@@ -159,8 +133,6 @@ public class BipartiteGraphTestDriver {
      */
     public String getParentByEdgeLabel(String graphName, String childName,
     									String edgeLabel) {
-    	//TODO: Implement this method
-    	
-    	
+        return graphs.get(graphName).getParentByEdgeLabel(childName,edgeLabel);
     }
 }

@@ -1,9 +1,11 @@
+package homework2;
+
 import static org.junit.Assert.*;
 import org.junit.Test;
 
 
 /**
- * BipartiteGraphTest contains JUnit block-box unit tests for BipartiteGraph.
+ * homework2.BipartiteGraphTest contains JUnit block-box unit tests for BipartiteGraph.
  */
 public class BipartiteGraphTest {
 

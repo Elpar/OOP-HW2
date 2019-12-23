@@ -1,6 +1,5 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+package homework2;
+
 import java.util.Map;
 
 /**
@@ -74,9 +73,9 @@ public class SimulatorTestDriver {
 
 	/**
 	 * @requires createSimulator(simName) && addChannel(channelName)
-	 *           A transaction Transaction != null
+	 *           A transaction homework2.Transaction != null
 	 * @modifies channel named channelName
-	 * @effects pushes the Transaction into the channel named channelName in the
+	 * @effects pushes the homework2.Transaction into the channel named channelName in the
 	 *          simulator named simName.
 	 */
 	public void sendTransaction(String simName, String channelName, Transaction tx) {
@@ -86,7 +85,7 @@ public class SimulatorTestDriver {
 	
 	/**
 	 * @requires addChannel(channelName)
-	 * @return a space-separated list of the Transaction values currently in the
+	 * @return a space-separated list of the homework2.Transaction values currently in the
 	 *         channel named channelName in the simulator named simName.
 	 */
 	public String listContents(String simName, String channelName) {
@@ -96,7 +95,7 @@ public class SimulatorTestDriver {
 
 	/**
 	 * @requires addParticipant(participantName)
-	 * @return The sum of all Transaction amount of stored products that one has in his storage buffer.
+	 * @return The sum of all homework2.Transaction amount of stored products that one has in his storage buffer.
 	 */
 	public double getParticipantStorageAmount(String simName, String participantName) {
         // TODO: Implement this method
@@ -105,7 +104,7 @@ public class SimulatorTestDriver {
 
 	/**
 	 * @requires addParticipant(participantName)
-	 * @return The sum of all Transaction amount of waiting to be recycled products that one has.
+	 * @return The sum of all homework2.Transaction amount of waiting to be recycled products that one has.
 	 */
 	public double getParticipantToRecycleAmount(String simName, String participantName) {
         // TODO: Implement this method
