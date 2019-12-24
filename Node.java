@@ -3,6 +3,9 @@ package homework2;
 
 import javafx.util.Pair;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 public class Node<obj extends Object> {
     obj label;
@@ -83,4 +86,45 @@ public class Node<obj extends Object> {
         return string;
     }
 
+    /**
+     * @requires children != null
+     * @modifies none.
+     * @effects returns a space-separated string of the children of this, alphabetically ordered.
+     */
+    public String getChildrenList() {
+        String childrenString = "";
+        List<String> childrenList = new ArrayList<String>();
+        Iterator<Pair<obj,obj>> iter = children.iterator();
+        while (iter.hasNext()) {
+            childrenList.add(iter.next().getValue().toString());
+        }
+        Collections.sort(childrenList);
+        Iterator sortedIter = childrenList.iterator();
+        while (sortedIter.hasNext()) {
+            childrenString.concat(iter.next().toString());
+            childrenString.concat(" ");
+        }
+        return childrenString;
+    }
+
+    /**
+     * @requires parents != null
+     * @modifies none.
+     * @effects returns a space-separated string of the parents of this, alphabetically ordered.
+     */
+    public String getParentsList() {
+        String parentsString = "";
+        List<String> parentsList = new ArrayList<String>();
+        Iterator<Pair<obj,obj>> iter = parents.iterator();
+        while (iter.hasNext()) {
+            parentsList.add(iter.next().getValue().toString());
+        }
+        Collections.sort(parentsList);
+        Iterator sortedIter = parentsList.iterator();
+        while (sortedIter.hasNext()) {
+            parentsString.concat(iter.next().toString());
+            parentsString.concat(" ");
+        }
+        return parentsString;
+    }
 }

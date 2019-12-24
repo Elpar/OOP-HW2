@@ -1,11 +1,11 @@
 
 package homework2;
 
-import java.util.HashSet;
+import java.util.*;
 
 public class BipartiteGraph<obj extends Object> {
-    private HashSet whiteNodes;
-    private HashSet blackNodes;
+    private HashSet<Node> whiteNodes;
+    private HashSet<Node> blackNodes;
 
     //Representation Invariant:
     //whiteNodes != null & blackNodes != null and do not contain 2 (or more) of the same node in both sets combined.
@@ -21,8 +21,8 @@ public class BipartiteGraph<obj extends Object> {
      * @effects create a new bipartite graph with the label graphLabel and initialized empty nodes lists.
      */
     BipartiteGraph() {
-        whiteNodes = new HashSet<obj>();
-        blackNodes = new HashSet<obj>();
+        whiteNodes = new HashSet<Node>();
+        blackNodes = new HashSet<Node>();
     }
 
     /**
@@ -57,21 +57,43 @@ public class BipartiteGraph<obj extends Object> {
     /**
      * @requires none.
      * @modifies none.
-     * @effects returns a space-separated string listing all the nodes in the blackNodes hashset.
+     * @effects returns a space-separated string listing all the nodes in the blackNodes hashset in alphabetical order.
      */
-    public String listBlackNodes() { //TODO: THIS IS NOT DONE.
-        String string = "";
-        return string;
+    public String listBlackNodes() {
+        String blackString = "";
+        List<String> blackList = new ArrayList<String>();
+        Iterator<Node> iter = blackNodes.iterator();
+        while (iter.hasNext()) {
+            blackList.add(iter.next().toString());
+        }
+        Collections.sort(blackList);
+        Iterator sortedIter = blackList.iterator();
+        while (sortedIter.hasNext()) {
+            blackString.concat(iter.next().toString());
+            blackString.concat(" ");
+        }
+        return blackString;
     }
 
     /**
      * @requires none.
      * @modifies none.
-     * @effects returns a space-separated string listing all the nodes in the whiteNodes hashset.
+     * @effects returns a space-separated string listing all the nodes in the whiteNodes hashset in alphabetical order.
      */
-    public String listWhiteNodes() { //TODO: THIS IS NOT DONE.
-        String string = "";
-        return string;
+    public String listWhiteNodes() {
+        String whiteString = "";
+        List<String> whiteList = new ArrayList<String>();
+        Iterator<Node> iter = whiteNodes.iterator();
+        while (iter.hasNext()) {
+            whiteList.add(iter.next().toString());
+        }
+        Collections.sort(whiteList);
+        Iterator sortedIter = whiteList.iterator();
+        while (sortedIter.hasNext()) {
+            whiteString.concat(iter.next().toString());
+            whiteString.concat(" ");
+        }
+        return whiteString;
     }
 
     /**
@@ -80,8 +102,23 @@ public class BipartiteGraph<obj extends Object> {
      * @effects returns a space-separated string listing all the children of parentName node, alphabetically ordered.
      */
     public String listChildren(obj parentName) {
-        String string = "";
-        return string;
+        String childrenString = "";
+        if (whiteNodes.contains(parentName)) {
+            for (Node node : whiteNodes) {
+                if (node.equals(parentName)) {
+                    childrenString = node.getChildrenList();
+                }
+            }
+        } else if (blackNodes.contains((parentName))) {
+            for (Node node : blackNodes) {
+                if (node.equals(parentName)) {
+                    childrenString = node.getChildrenList();
+                }
+            }
+        } else {
+            return null;
+        }
+        return childrenString;
     }
 
     /**
@@ -90,8 +127,23 @@ public class BipartiteGraph<obj extends Object> {
      * @effects returns a space-separated string listing all the parents of childName node, alphabetically ordered.
      */
     public String listParents(obj childName) {
-        String string = "";
-        return string;
+        String parentString = "";
+        if (whiteNodes.contains(childName)) {
+            for (Node node : whiteNodes) {
+                if (node.equals(childName)) {
+                    parentString = node.getParentsList();
+                }
+            }
+        } else if (blackNodes.contains((childName))) {
+            for (Node node : blackNodes) {
+                if (node.equals(childName)) {
+                    parentString = node.getParentsList();
+                }
+            }
+        } else {
+            return null;
+        }
+        return parentString;
     }
 
     /**
