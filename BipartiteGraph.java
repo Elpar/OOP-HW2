@@ -60,6 +60,7 @@ public class BipartiteGraph<obj extends Object> {
      * @effects returns a space-separated string listing all the nodes in the blackNodes hashset in alphabetical order.
      */
     public String listBlackNodes() {
+        checkRep();
         String blackString = "";
         List<String> blackList = new ArrayList<String>();
         Iterator<Node> iter = blackNodes.iterator();
@@ -72,6 +73,7 @@ public class BipartiteGraph<obj extends Object> {
             blackString.concat(iter.next().toString());
             blackString.concat(" ");
         }
+        checkRep();
         return blackString;
     }
 
@@ -81,6 +83,7 @@ public class BipartiteGraph<obj extends Object> {
      * @effects returns a space-separated string listing all the nodes in the whiteNodes hashset in alphabetical order.
      */
     public String listWhiteNodes() {
+        checkRep();
         String whiteString = "";
         List<String> whiteList = new ArrayList<String>();
         Iterator<Node> iter = whiteNodes.iterator();
@@ -93,6 +96,7 @@ public class BipartiteGraph<obj extends Object> {
             whiteString.concat(iter.next().toString());
             whiteString.concat(" ");
         }
+        checkRep();
         return whiteString;
     }
 
@@ -102,6 +106,7 @@ public class BipartiteGraph<obj extends Object> {
      * @effects returns a space-separated string listing all the children of parentName node, alphabetically ordered.
      */
     public String listChildren(obj parentName) {
+        checkRep();
         String childrenString = "";
         if (whiteNodes.contains(parentName)) {
             for (Node node : whiteNodes) {
@@ -118,6 +123,7 @@ public class BipartiteGraph<obj extends Object> {
         } else {
             return null;
         }
+        checkRep();
         return childrenString;
     }
 
@@ -127,6 +133,7 @@ public class BipartiteGraph<obj extends Object> {
      * @effects returns a space-separated string listing all the parents of childName node, alphabetically ordered.
      */
     public String listParents(obj childName) {
+        checkRep();
         String parentString = "";
         if (whiteNodes.contains(childName)) {
             for (Node node : whiteNodes) {
@@ -143,6 +150,7 @@ public class BipartiteGraph<obj extends Object> {
         } else {
             return null;
         }
+        checkRep();
         return parentString;
     }
 
@@ -151,9 +159,26 @@ public class BipartiteGraph<obj extends Object> {
      * @modifies none.
      * @effects returns a string of the child connected to the parrentName node by the edgeLabel edge.
      */
-    public String getChildByEdgeLabel(obj parentName, obj edgeLabel) { //TODO: use toString()
-        String string = "";
-        return string;
+    public String getChildByEdgeLabel(obj parentName, obj edgeLabel) {
+        checkRep();
+        String childrenString = "";
+        if (whiteNodes.contains(parentName)) {
+            for (Node node : whiteNodes) {
+                if (node.equals(parentName)) {
+                    childrenString = node.getChildByEdgeLabel(edgeLabel);
+                }
+            }
+        } else if (blackNodes.contains((parentName))) {
+            for (Node node : blackNodes) {
+                if (node.equals(parentName)) {
+                    childrenString = node.getChildByEdgeLabel(edgeLabel);
+                }
+            }
+        } else {
+            return null;
+        }
+        checkRep();
+        return childrenString;
     }
 
     /**
@@ -161,12 +186,48 @@ public class BipartiteGraph<obj extends Object> {
      * @modifies none.
      * @effects returns a string of the parent connected to the childName node by the edgeLabel edge.
      */
-    public String getParentByEdgeLabel(obj childName, obj edgeLabel) { //TODO: use toString()
-        String string = "";
-        return string;
+    public String getParentByEdgeLabel(obj childName, obj edgeLabel) {
+        checkRep();
+        String parentString = "";
+        if (whiteNodes.contains(childName)) {
+            for (Node node : whiteNodes) {
+                if (node.equals(childName)) {
+                    parentString = node.getParentByEdgeLabel(edgeLabel);
+                }
+            }
+        } else if (blackNodes.contains((childName))) {
+            for (Node node : blackNodes) {
+                if (node.equals(childName)) {
+                    parentString = node.getParentByEdgeLabel(edgeLabel);
+                }
+            }
+        } else {
+            checkRep();
+            return null;
+        }
+        checkRep();
+        return parentString;
     }
 
-    private void checkRep() { //TODO: add all checks
-
+    private void checkRep() {
+        //Check there are no duplicate nodes
+        for (Node node : whiteNodes) {
+            for (Node nodeFollow : whiteNodes) {
+                if (node == nodeFollow) continue;
+                assert (node.equals(nodeFollow)) : "Found two nodes with the same label amongst the white nodes";
+            }
+        }
+        for (Node node : blackNodes) {
+            for (Node nodeFollow : blackNodes) {
+                if (node == nodeFollow) continue;
+                assert (node.equals(nodeFollow)) : "Found two nodes with the same label amongst the black nodes";
+            }
+        }
+        for (Node node : blackNodes) {
+            for (Node nodeFollow : whiteNodes) {
+                assert (node.equals(nodeFollow)) : "Found two nodes with the same label, one black and one white";
+            }
+        }
+        //Check there are no same edges?
     }
 }

@@ -2,10 +2,8 @@
 package homework2;
 
 import javafx.util.Pair;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+
+import java.util.*;
 
 public class Node<obj extends Object> {
     obj label;
@@ -28,6 +26,17 @@ public class Node<obj extends Object> {
         label = nodeLabel;
         parents = new ArrayList<Pair<obj,obj>>();
         children = new ArrayList<Pair<obj,obj>>();
+    }
+
+    /**
+     * @requires node2 != null.
+     * @modifies none.
+     * @effects checks if the label of this equals the label of node2.
+     */
+    public boolean equals(Node node2) {
+        if (node2 == null || getClass() != node2.getClass()) return false;
+        if (this.label.equals(node2.label)) return true;
+        return false;
     }
 
     /**
@@ -82,6 +91,9 @@ public class Node<obj extends Object> {
      * @effects returns a string of the parent connected to this node by the edgeLabel edge.
      */
     public String getParentByEdgeLabel(obj edgeLabel) { //TODO: use toString()
+        for (Object iter : parents) {
+
+        }
         String string = "";
         return string;
     }
@@ -126,5 +138,20 @@ public class Node<obj extends Object> {
             parentsString.concat(" ");
         }
         return parentsString;
+    }
+
+    private void checkRep() { //TODO: FIX THIS! Incorrect checks for same parents/children!!!
+        assert label != null : "Label is null";
+        for (Object iter1 : parents) {
+            for (Object iter2 : parents) {
+                if (iter1 == iter2) continue;
+                assert iter1.equals(iter2) : "Found two parents that are the same in the node";
+            }
+            for (Object iter2 : children) {
+                if (iter1 == iter2) continue;
+                assert iter1.equals(iter2) : "Found two children that are the same in the node";
+            }
+
+        }
     }
 }
