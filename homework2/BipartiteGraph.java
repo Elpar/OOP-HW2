@@ -4,8 +4,8 @@ package homework2;
 import java.util.*;
 
 public class BipartiteGraph<obj extends Object> {
-    private HashSet<Node> whiteNodes;
-    private HashSet<Node> blackNodes;
+    private HashMap<Node> whiteNodes;
+    private HashMap<Node> blackNodes;
 
     //Representation Invariant:
     //whiteNodes != null & blackNodes != null and do not contain 2 (or more) of the same node in both sets combined.
@@ -85,6 +85,7 @@ public class BipartiteGraph<obj extends Object> {
      * @effects returns a space-separated string listing all the nodes in the blackNodes hashset in alphabetical order.
      */
     public String listBlackNodes() {
+        checkRep();
         String blackString = "";
         List<String> blackList = new ArrayList<String>();
         Iterator<obj> iter = blackNodes.keySet().iterator();
@@ -97,6 +98,7 @@ public class BipartiteGraph<obj extends Object> {
             blackString.concat(iter.next().toString());
             blackString.concat(" ");
         }
+        checkRep();
         return blackString;
     }
 
@@ -106,6 +108,7 @@ public class BipartiteGraph<obj extends Object> {
      * @effects returns a space-separated string listing all the nodes in the whiteNodes hashset in alphabetical order.
      */
     public String listWhiteNodes() {
+        checkRep();
         String whiteString = "";
         List<String> whiteList = new ArrayList<String>();
         Iterator<obj> iter = whiteNodes.keySet().iterator();
@@ -118,6 +121,7 @@ public class BipartiteGraph<obj extends Object> {
             whiteString.concat(iter.next().toString());
             whiteString.concat(" ");
         }
+        checkRep();
         return whiteString;
     }
 
@@ -127,6 +131,7 @@ public class BipartiteGraph<obj extends Object> {
      * @effects returns a space-separated string listing all the children of parentName node, alphabetically ordered.
      */
     public String listChildren(obj parentName) {
+        checkRep();
         String childrenString = "";
         if (whiteNodes.containsKey(parentName)) {
             for (Node node : whiteNodes.values()) {
@@ -143,6 +148,7 @@ public class BipartiteGraph<obj extends Object> {
         } else {
             return null;
         }
+        checkRep();
         return childrenString;
     }
 
@@ -152,6 +158,7 @@ public class BipartiteGraph<obj extends Object> {
      * @effects returns a space-separated string listing all the parents of childName node, alphabetically ordered.
      */
     public String listParents(obj childName) {
+        checkRep();
         String parentString = "";
         if (whiteNodes.keySet().contains(childName)) {
             for (Node node : whiteNodes.values()) {
@@ -168,6 +175,7 @@ public class BipartiteGraph<obj extends Object> {
         } else {
             return null;
         }
+        checkRep();
         return parentString;
     }
 
@@ -215,7 +223,25 @@ public class BipartiteGraph<obj extends Object> {
         return parentName;
     }
 
-    private void checkRep() { //TODO: add all checks
-
+    private void checkRep() {
+        //Check there are no duplicate nodes
+        for (Node node : whiteNodes) {
+            for (Node nodeFollow : whiteNodes) {
+                if (node == nodeFollow) continue;
+                assert (node.equals(nodeFollow)) : "Found two nodes with the same label amongst the white nodes";
+            }
+        }
+        for (Node node : blackNodes) {
+            for (Node nodeFollow : blackNodes) {
+                if (node == nodeFollow) continue;
+                assert (node.equals(nodeFollow)) : "Found two nodes with the same label amongst the black nodes";
+            }
+        }
+        for (Node node : blackNodes) {
+            for (Node nodeFollow : whiteNodes) {
+                assert (node.equals(nodeFollow)) : "Found two nodes with the same label, one black and one white";
+            }
+        }
+        //Check there are no same edges?
     }
 }

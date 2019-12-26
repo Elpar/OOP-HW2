@@ -4,6 +4,7 @@ package homework2;
 import javafx.util.Pair;
 import java.util.Collections;
 
+
 import java.util.*;
 
 public class Node<obj extends Object> {
@@ -28,6 +29,17 @@ public class Node<obj extends Object> {
         parents = new HashMap<obj,obj>();
         children = new  HashMap<obj,obj>();
         this.checkRep();
+    }
+
+    /**
+     * @requires node2 != null.
+     * @modifies none.
+     * @effects checks if the label of this equals the label of node2.
+     */
+    public boolean equals(Node node2) { // TODO: check in lectures if this equals implementation corresponds with the hash!
+        if (node2 == null || getClass() != node2.getClass()) return false;
+        if (this.label.equals(node2.label)) return true;
+        return false;
     }
 
     /**
@@ -150,7 +162,19 @@ public class Node<obj extends Object> {
         return parentsString;
     }
 
-    private void checkRep(){// TODO: implement this
 
+    private void checkRep() { //TODO: FIX THIS! Incorrect checks for same parents/children!!!
+        assert label != null : "Label is null";
+        for (Object iter1 : parents) {
+            for (Object iter2 : parents) {
+                if (iter1 == iter2) continue;
+                assert iter1.equals(iter2) : "Found two parents that are the same in the node";
+            }
+            for (Object iter2 : children) {
+                if (iter1 == iter2) continue;
+                assert iter1.equals(iter2) : "Found two children that are the same in the node";
+            }
+
+        }
     }
 }
