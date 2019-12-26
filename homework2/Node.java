@@ -2,15 +2,14 @@
 package homework2;
 
 import javafx.util.Pair;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+
+import java.util.*;
 
 public class Node<obj extends Object> {
     obj label;
-    private ArrayList parents;
-    private ArrayList children;
+    private HashMap<obj, obj> parents;
+    private HashMap<obj, obj> children;
 
     //Representation Invariant:
     //parents != null, children != null, label != null
@@ -26,8 +25,9 @@ public class Node<obj extends Object> {
      */
     Node(obj nodeLabel) {
         label = nodeLabel;
-        parents = new ArrayList<Pair<obj,obj>>();
-        children = new ArrayList<Pair<obj,obj>>();
+        parents = new HashMap<obj,obj>();
+        children = new  HashMap<obj,obj>();
+        this.checkRep();
     }
 
     /**
@@ -36,7 +36,12 @@ public class Node<obj extends Object> {
      * @effects adds edge from parentName node to this node to the parents list of this.
      */
     public void addEdgeFromParent(obj parentName, obj edgeLabel) {
-
+        this.checkRep();
+        if(parentName == null || edgeLabel == null){
+            throw new IllegalArgumentException("null parentName or edgelabel");
+        }
+        this.parents.put(edgeLabel, parentName);
+        this.checkRep();
     }
 
     /**
@@ -45,7 +50,12 @@ public class Node<obj extends Object> {
      * @effects adds edge from this node to childName node to the children list of this.
      */
     public void addEdgeToChild(obj childName, obj edgeLabel) {
-
+        this.checkRep();
+        if(childName == null || edgeLabel == null){
+            throw new IllegalArgumentException("null childName or edgelabel");
+        }
+        this.parents.put(edgeLabel, childName);
+        this.checkRep();
     }
 
     /**
@@ -54,7 +64,8 @@ public class Node<obj extends Object> {
      * @effects returns false if an outgoing edge with the same label exists, true if not.
      */
     boolean isOutgoingEdgeExists(obj edgeLabel) { //TODO: implement.
-        return false;
+        this.checkRep();
+        return this.children.containsKey(edgeLabel);
     }
 
     /**
@@ -62,28 +73,39 @@ public class Node<obj extends Object> {
      * @modifies none.
      * @effects returns false if an incoming edge with the same label exists, true if not.
      */
-    boolean isIncomingEdgeExists(obj edgeLabel) { //TODO: implement.
-        return false;
+    boolean isIncomingEdgeExists(obj edgeLabel) {
+        this.checkRep();
+        return this.parents.containsKey(edgeLabel);
     }
 
     /**
-     * @requires addEdgeToChild(childName, edgeLabel) for some childName //TODO: make sure no need for !null checks
+     * @requires addEdgeToChild(this.label, edgeLabel)  //TODO: make sure no need for !null checks
      * @modifies none.
      * @effects returns a string of the child connected to this node by the edgeLabel edge.
      */
-    public String getChildByEdgeLabel(obj edgeLabel) { //TODO: use toString()
-        String string = "";
-        return string;
+    public String getChildByEdgeLabel(obj edgeLabel) { //TODO: use toString
+        this.checkRep();
+        String childName = "";
+        if(edgeLabel == null || !children.containsKey(edgeLabel)){
+            throw new IllegalArgumentException("edgeLabel is null or is not an outgoing edge");
+        }
+        childName += children.get(edgeLabel).toString();
+        return childName;
     }
 
     /**
-     * @requires addEdgeFromParent(parentName, edgeLabel) for some parentName //TODO: make sure no need for !null checks
+     * @requires addEdgeFromParent(this.label, edgeLabel)  //TODO: make sure no need for !null checks
      * @modifies none.
      * @effects returns a string of the parent connected to this node by the edgeLabel edge.
      */
     public String getParentByEdgeLabel(obj edgeLabel) { //TODO: use toString()
-        String string = "";
-        return string;
+        this.checkRep();
+        String parentName = "";
+        if(edgeLabel == null || !children.containsKey(edgeLabel)){
+            throw new IllegalArgumentException("edgeLabel is null or is not an outgoing edge");
+        }
+        parentName += children.get(edgeLabel).toString();
+        return parentName;
     }
 
     /**
@@ -94,9 +116,9 @@ public class Node<obj extends Object> {
     public String getChildrenList() {
         String childrenString = "";
         List<String> childrenList = new ArrayList<String>();
-        Iterator<Pair<obj,obj>> iter = children.iterator();
+        Iterator<obj> iter = children.values().iterator();
         while (iter.hasNext()) {
-            childrenList.add(iter.next().getValue().toString());
+            childrenList.add(iter.next().toString());
         }
         Collections.sort(childrenList);
         Iterator sortedIter = childrenList.iterator();
@@ -115,9 +137,9 @@ public class Node<obj extends Object> {
     public String getParentsList() {
         String parentsString = "";
         List<String> parentsList = new ArrayList<String>();
-        Iterator<Pair<obj,obj>> iter = parents.iterator();
+        Iterator<obj> iter = parents.values().iterator();
         while (iter.hasNext()) {
-            parentsList.add(iter.next().getValue().toString());
+            parentsList.add(iter.next().toString());
         }
         Collections.sort(parentsList);
         Iterator sortedIter = parentsList.iterator();
@@ -126,5 +148,9 @@ public class Node<obj extends Object> {
             parentsString.concat(" ");
         }
         return parentsString;
+    }
+
+    private void checkRep(){// TODO: implement this
+
     }
 }

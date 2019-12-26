@@ -21,8 +21,8 @@ public class BipartiteGraph<obj extends Object> {
      * @effects create a new bipartite graph with the label graphLabel and initialized empty nodes lists.
      */
     BipartiteGraph() {
-        whiteNodes = new HashSet<Node>();
-        blackNodes = new HashSet<Node>();
+        whiteNodes = new HashMap<obj, homework2.Node>();
+        blackNodes = new HashMap<obj, homework2.Node>();
     }
 
     /**
@@ -31,7 +31,13 @@ public class BipartiteGraph<obj extends Object> {
      * @effects adds a node with clone of label to the blackNodes hashset.
      */
     public void addBlackNode(obj label) {
-
+        checkRep();
+        if(label == null){
+            throw new IllegalArgumentException("can't initiate a black node with null or existing label");
+        }
+        Node n = new homework2.Node(label);
+        this.blackNodes.put(label, n);
+        checkRep();
     }
 
     /**
@@ -40,7 +46,13 @@ public class BipartiteGraph<obj extends Object> {
      * @effects adds a node with clone of label to the whiteNodes hashset.
      */
     public void addWhiteNode(obj label) {
-
+        this.checkRep();
+        if(label == null || this.blackNodes.containsKey(label)){
+            throw new IllegalArgumentException("can't initiate a white node with null or existing label");
+        }
+        Node n = new homework2.Node(label);
+        this.blackNodes.put(label, n);
+        this.checkRep();
     }
 
     /**
@@ -50,8 +62,21 @@ public class BipartiteGraph<obj extends Object> {
      * @effects adds an edge from parentName node to childName node and updates the nodes accordingly.
      */
     public void addEdge(obj parentName, obj childName, obj edgeLabel) {
-       // look in both of the lists: whiteNodes or blackNodes, then get(childName).addEdgeFromParent();
-       // look in both of the lists: whiteNodes or blackNodes, then get(parentName).addEdgeToChild();
+        this.checkRep();
+        if(parentName == null || childName == null || edgeLabel == null){
+            throw new IllegalArgumentException("null argument detected when tried to add an edge");
+        }
+        if(this.whiteNodes.containsKey(parentName) && this.blackNodes.containsKey(childName)){
+            whiteNodes.get(parentName).addEdgeToChild(childName, edgeLabel);
+            blackNodes.get(childName).addEdgeFromParent(parentName, edgeLabel);
+        }
+        else if(this.blackNodes.containsKey(parentName) && this.whiteNodes.containsKey(childName)){
+            blackNodes.get(parentName).addEdgeToChild(childName, edgeLabel);
+            whiteNodes.get(childName).addEdgeFromParent(parentName, edgeLabel);
+        }
+        else {
+            throw new IllegalArgumentException("parent or child (or both) do not exist, or exist with the same color");
+        }
     }
 
     /**
@@ -62,7 +87,7 @@ public class BipartiteGraph<obj extends Object> {
     public String listBlackNodes() {
         String blackString = "";
         List<String> blackList = new ArrayList<String>();
-        Iterator<Node> iter = blackNodes.iterator();
+        Iterator<obj> iter = blackNodes.keySet().iterator();
         while (iter.hasNext()) {
             blackList.add(iter.next().toString());
         }
@@ -83,7 +108,7 @@ public class BipartiteGraph<obj extends Object> {
     public String listWhiteNodes() {
         String whiteString = "";
         List<String> whiteList = new ArrayList<String>();
-        Iterator<Node> iter = whiteNodes.iterator();
+        Iterator<obj> iter = whiteNodes.keySet().iterator();
         while (iter.hasNext()) {
             whiteList.add(iter.next().toString());
         }
@@ -103,14 +128,14 @@ public class BipartiteGraph<obj extends Object> {
      */
     public String listChildren(obj parentName) {
         String childrenString = "";
-        if (whiteNodes.contains(parentName)) {
-            for (Node node : whiteNodes) {
+        if (whiteNodes.containsKey(parentName)) {
+            for (Node node : whiteNodes.values()) {
                 if (node.equals(parentName)) {
                     childrenString = node.getChildrenList();
                 }
             }
-        } else if (blackNodes.contains((parentName))) {
-            for (Node node : blackNodes) {
+        } else if (blackNodes.keySet().contains(parentName)) {
+            for (Node node : blackNodes.values()) {
                 if (node.equals(parentName)) {
                     childrenString = node.getChildrenList();
                 }
@@ -128,14 +153,14 @@ public class BipartiteGraph<obj extends Object> {
      */
     public String listParents(obj childName) {
         String parentString = "";
-        if (whiteNodes.contains(childName)) {
-            for (Node node : whiteNodes) {
+        if (whiteNodes.keySet().contains(childName)) {
+            for (Node node : whiteNodes.values()) {
                 if (node.equals(childName)) {
                     parentString = node.getParentsList();
                 }
             }
-        } else if (blackNodes.contains((childName))) {
-            for (Node node : blackNodes) {
+        } else if (blackNodes.keySet().contains((childName))) {
+            for (Node node : blackNodes.values()) {
                 if (node.equals(childName)) {
                     parentString = node.getParentsList();
                 }
@@ -151,9 +176,21 @@ public class BipartiteGraph<obj extends Object> {
      * @modifies none.
      * @effects returns a string of the child connected to the parrentName node by the edgeLabel edge.
      */
-    public String getChildByEdgeLabel(obj parentName, obj edgeLabel) { //TODO: use toString()
-        String string = "";
-        return string;
+    public String getChildByEdgeLabel(obj parentName, obj edgeLabel) {
+        String childName = "";
+        if(parentName == null || edgeLabel == null){
+            throw new IllegalArgumentException("parentName or edgeLabel are null in getChildByEdge");
+        }
+        if(whiteNodes.containsKey(parentName)){
+            childName += whiteNodes.get(parentName).getChildByEdgeLabel(edgeLabel);
+        }
+        else if(blackNodes.containsKey(parentName)){
+            childName += blackNodes.get(parentName).getChildByEdgeLabel(edgeLabel);
+        }
+        else {
+            throw new IllegalArgumentException("tried to get to non existing node in getChildByEdgeLabel");
+        }
+        return childName;
     }
 
     /**
@@ -161,9 +198,21 @@ public class BipartiteGraph<obj extends Object> {
      * @modifies none.
      * @effects returns a string of the parent connected to the childName node by the edgeLabel edge.
      */
-    public String getParentByEdgeLabel(obj childName, obj edgeLabel) { //TODO: use toString()
-        String string = "";
-        return string;
+    public String getParentByEdgeLabel(obj childName, obj edgeLabel) {
+        String parentName = "";
+        if(childName == null || edgeLabel == null){
+            throw new IllegalArgumentException("childName or edgeLabel are null in getChildByEdge");
+        }
+        if(whiteNodes.containsKey(childName)){
+            parentName += whiteNodes.get(childName).getChildByEdgeLabel(edgeLabel);
+        }
+        if(blackNodes.containsKey(childName)){
+            parentName += blackNodes.get(childName).getChildByEdgeLabel(edgeLabel);
+        }
+        else {
+            throw new IllegalArgumentException("tried to get to non existing node in getParentByEdgeLabel");
+        }
+        return parentName;
     }
 
     private void checkRep() { //TODO: add all checks
