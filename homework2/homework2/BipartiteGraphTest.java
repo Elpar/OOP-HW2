@@ -1,5 +1,5 @@
-package homework2;
 
+package homework2;
 import static org.junit.Assert.*;
 import org.junit.Test;
 

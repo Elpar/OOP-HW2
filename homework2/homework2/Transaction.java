@@ -1,5 +1,5 @@
-package homework2;
 
+package homework2;
 /**
  * This class implements a transaction in a graph of recycling channels.
  * A transaction has a product which is immutable and an amount of it which is mutable.

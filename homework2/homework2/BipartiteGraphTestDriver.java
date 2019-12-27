@@ -1,6 +1,5 @@
 
 package homework2;
-
 import java.util.*;
 
 /**
@@ -111,7 +110,7 @@ public class BipartiteGraphTestDriver {
      * 		   childName in the graph graphName, in alphabetical order.
      */
     public String listParents(String graphName, String childName) {
-        return graphs.get(graphName).listChildren(childName);
+        return graphs.get(graphName).listParents(childName);
     }
     
     /**

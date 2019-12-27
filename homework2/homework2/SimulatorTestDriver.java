@@ -1,5 +1,5 @@
-package homework2;
 
+package homework2;
 import java.util.Map;
 
 /**
@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class SimulatorTestDriver {
 
-	private Map<String, Simulator<String, Transaction>> simulators;
+//	private Map<String, Simulator<String, Transaction>> simulators;
 
 	/**
 	 * @modifies this
@@ -80,6 +80,7 @@ public class SimulatorTestDriver {
 	 */
 	public void sendTransaction(String simName, String channelName, Transaction tx) {
         // TODO: Implement this method
+
     }
 	
 	
@@ -90,6 +91,7 @@ public class SimulatorTestDriver {
 	 */
 	public String listContents(String simName, String channelName) {
         // TODO: Implement this method
+		return null;
 	}
 
 
@@ -99,6 +101,7 @@ public class SimulatorTestDriver {
 	 */
 	public double getParticipantStorageAmount(String simName, String participantName) {
         // TODO: Implement this method
+		return 0;
 	}
 
 
@@ -108,6 +111,7 @@ public class SimulatorTestDriver {
 	 */
 	public double getParticipantToRecycleAmount(String simName, String participantName) {
         // TODO: Implement this method
+		return 0;
 	}
 
 
