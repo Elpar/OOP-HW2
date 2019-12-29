@@ -83,7 +83,20 @@ public class BipartiteGraphTestDriver {
      * 		   in the graph graphName, in alphabetical order.
      */
     public String listBlackNodes(String graphName) {
-    	return graphs.get(graphName).listBlackNodes();
+        Collection<String> blackNodes = graphs.get(graphName).listBlackNodes();
+        String whiteString = "";
+        List<String> whiteList = new ArrayList<String>();
+        Iterator<String> iter = blackNodes.iterator();
+        while (iter.hasNext()) {
+            whiteList.add(iter.next());
+        }
+        Collections.sort(whiteList);
+        Iterator sortedIter = whiteList.iterator();
+        while (sortedIter.hasNext()) {
+            whiteString.concat(iter.next());
+            whiteString.concat(" ");
+        }
+        return whiteString;
     }
 
     /**
@@ -92,7 +105,20 @@ public class BipartiteGraphTestDriver {
      * 		   in the graph graphName, in alphabetical order.
      */
     public String listWhiteNodes(String graphName) {
-        return graphs.get(graphName).listWhiteNodes();
+        Collection<String> whiteNodes = graphs.get(graphName).listWhiteNodes();
+        String whiteString = "";
+        List<String> whiteList = new ArrayList<String>();
+        Iterator<String> iter = whiteNodes.iterator();
+        while (iter.hasNext()) {
+            whiteList.add(iter.next());
+        }
+        Collections.sort(whiteList);
+        Iterator sortedIter = whiteList.iterator();
+        while (sortedIter.hasNext()) {
+            whiteString.concat(iter.next());
+            whiteString.concat(" ");
+        }
+        return whiteString;
     }
 
     /**
@@ -101,7 +127,20 @@ public class BipartiteGraphTestDriver {
      * 		   parentName in the graph graphName, in alphabetical order.
      */
     public String listChildren(String graphName, String parentName) {
-    	return graphs.get(graphName).listChildren(parentName);
+        Collection<String> children= graphs.get(graphName).listChildren(parentName);
+        String childrenString = "";
+        List<String> childrenList = new ArrayList<String>();
+        Iterator<String> iter = children.iterator();
+        while (iter.hasNext()) {
+            childrenList.add(iter.next().toString());
+        }
+        Collections.sort(childrenList);
+        Iterator sortedIter = childrenList.iterator();
+        while (sortedIter.hasNext()) {
+            childrenString.concat(iter.next().toString());
+            childrenString.concat(" ");
+        }
+    	return childrenString;
     }
 
     /**
@@ -110,7 +149,20 @@ public class BipartiteGraphTestDriver {
      * 		   childName in the graph graphName, in alphabetical order.
      */
     public String listParents(String graphName, String childName) {
-        return graphs.get(graphName).listParents(childName);
+        Collection<String> parents = graphs.get(graphName).listParents(childName);
+        String parentsString = "";
+        List<String> parentsList = new ArrayList<String>();
+        Iterator<String> iter = parents.iterator();
+        while (iter.hasNext()) {
+            parentsList.add(iter.next().toString());
+        }
+        Collections.sort(parentsList);
+        Iterator sortedIter = parentsList.iterator();
+        while (sortedIter.hasNext()) {
+            parentsString.concat(iter.next().toString());
+            parentsString.concat(" ");
+        }
+        return parentsString;
     }
     
     /**
