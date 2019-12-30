@@ -16,7 +16,7 @@ public abstract class Pipe<obj extends Object, workObj extends Object> implement
     //workingObjects is protected to that those who inherit from Filter can use it.
 
     private obj label;
-    private int capacity;
+    private Double capacity;
     protected ArrayList<workObj> workingObjects;
 
     /**
@@ -24,7 +24,7 @@ public abstract class Pipe<obj extends Object, workObj extends Object> implement
      * @modifies this.
      * @effects constructs a new pipe with given capacity.
      */
-    public Pipe(obj pipeLabel, int givenCapacity) {
+    public Pipe(obj pipeLabel, double givenCapacity) {
         if (givenCapacity <= 0) throw new IllegalArgumentException("Capacity must be greater than 0");
         label = pipeLabel;
         workingObjects = new ArrayList<workObj>();
@@ -54,7 +54,7 @@ public abstract class Pipe<obj extends Object, workObj extends Object> implement
      * @modifies this.
      * @effects set the pipe's capacity.
      */
-    public void setPipeCapacity (int pipeCapacity) {
+    public void setPipeCapacity (double pipeCapacity) {
         checkRep();
         capacity = pipeCapacity;
         checkRep();
@@ -65,7 +65,7 @@ public abstract class Pipe<obj extends Object, workObj extends Object> implement
      * @modifies none.
      * @effects returns the pipe's capacity
      */
-    public int getPipeCapacity() {
+    public double getPipeCapacity() {
         checkRep();
         return capacity;
     }

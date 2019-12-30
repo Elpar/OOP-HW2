@@ -28,12 +28,11 @@ public class BipartiteGraph<obj extends Object> {
     /**
      * @requires none.
      * @modifies none.
-     * @effects returns the node labeled label's label (obj type), if doesn't exist returns null.
+     * @effects returns the functional node labeled label's label (obj type), if doesn't exist returns null.
      */
     public Node getNodeByLabel(obj label) {
         checkRep();
         if (label == null) return null;
-
         for (Vertex iter : blackNodes.values()) {
             if (iter.equals(label)) return iter.getNode();
         }

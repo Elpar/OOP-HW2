@@ -32,8 +32,7 @@ public class BipartiteGraphTestDriver {
     /**
      * @requires createGraph(graphName)
      *           && nodeName != null
-     *           && neither addBlackNode(graphName,nodeName) 
-     *                  nor addWhiteNode(graphName,nodeName)
+     *           && neither addBlackNode(graphName,nodeName) nor addWhiteNode(graphName,nodeName)
      *                      has already been called on this
      * @modifies graph named graphName
      * @effects Adds a black node represented by the String nodeName to the
@@ -43,11 +42,23 @@ public class BipartiteGraphTestDriver {
         graphs.get(graphName).addBlackNode(nodeName);
     }
 
+   /**
+     * @requires createGraph(graphName)
+     *           && nodeName != null && node != null
+     *           && neither addBlackNode(graphName,nodeName) nor addWhiteNode(graphName,nodeName)
+     *                      has already been called on this
+     * @modifies graph named graphName
+     * @effects Adds a black node represented by the String nodeName to the
+     * 			graph named graphName.
+     */
+    public void addBlackNodeWithObject(String graphName, String nodeName, Node node) {
+        graphs.get(graphName).addBlackNode(nodeName, node);
+    }
+
     /**
      * @requires createGraph(graphName)
      *           && nodeName != null
-     *           && neither addBlackNode(graphName,nodeName) 
-     *                  nor addWhiteNode(graphName,nodeName)
+     *           && neither addBlackNode(graphName,nodeName) nor addWhiteNode(graphName,nodeName)
      *                      has already been called on this
      * @modifies graph named graphName
      * @effects Adds a white node represented by the String nodeName to the
@@ -55,6 +66,19 @@ public class BipartiteGraphTestDriver {
      */
     public void addWhiteNode(String graphName, String nodeName) {
         graphs.get(graphName).addWhiteNode(nodeName);
+    }
+
+    /**
+     * @requires createGraph(graphName)
+     *           && nodeName != null
+     *           && neither addBlackNode(graphName,nodeName) nor addWhiteNode(graphName,nodeName)
+     *                      has already been called on this
+     * @modifies graph named graphName
+     * @effects Adds a white node represented by the String nodeName to the
+     * 			graph named graphName.
+     */
+    public void addWhiteNodeWithObject(String graphName, String nodeName, Node node) {
+        graphs.get(graphName).addWhiteNode(nodeName, node);
     }
 
     /**
