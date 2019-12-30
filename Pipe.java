@@ -5,26 +5,32 @@ import java.util.ArrayList;
 
 public abstract class Pipe<obj extends Object, workObj extends Object> implements Simulatable<obj>{
     //Representation Invariant:
-    //capacity >= -1
+    //capacity > 0.
 
     //Abstraction Function:
     //label represents the object which the pipe is for.
     //capacity represents the capacity for the pipe for objects of label type the pipe can hold.
-    //The value for capacity is 0 for "no capacity", -1 for "unlimited" and any integer > 0 for the rest.
+    //The value for capacity is 0 for "no capacity" and any integer > 0 for the rest.
+    //workingObjects is a list of all the working objects.
+    //workingObjects is protected to that those who inherit from Pipe can use it.
 
     private obj label;
     private int capacity;
-    private ArrayList workingObjects;
+    protected ArrayList workingObjects;
 
     /**
-     * @requires label != null.
+     * @requires label != null, givenCapacity > 0 & is an integer.
      * @modifies this.
-     * @effects constructs a new pipe with unlimited capacity.
+     * @effects constructs a new pipe with given capacity.
      */
-    public Pipe(obj pipeLabel) {
+    public Pipe(obj pipeLabel, int givenCapacity) {
+        if (givenCapacity <= 0) {
+            throw new IllegalArgumentException("Capacity must be greater than 0");
+        }
         label = pipeLabel;
         workingObjects = new ArrayList<workObj>();
-        capacity = -1;
+        capacity = givenCapacity;
+        checkRep();
     }
 
     /**
@@ -45,7 +51,7 @@ public abstract class Pipe<obj extends Object, workObj extends Object> implement
     }
 
     /**
-     * @requires pipeCapacity >= -1.
+     * @requires pipeCapacity > 0.
      * @modifies this.
      * @effects set the pipe's capacity.
      */
@@ -65,7 +71,22 @@ public abstract class Pipe<obj extends Object, workObj extends Object> implement
         return capacity;
     }
 
+    /**
+     * @requires capacityRequest is a possitive integer.
+     * @modifies none.
+     * @effects returns true if the pipe can receive the request, false otherwise.
+     */
+    public boolean isEnoughCapacity(int capacityRequest) {
+        checkRep();
+        if (capacityRequest < 0) throw new IllegalArgumentException("Capacity value is illegal");
+        return (capacityRequest <= capacity);
+    }
+
+    public void addWorkingObject(workObj newWorkingObject) {//TODO: this
+
+    }
+
     private void checkRep() {
-        assert capacity >= -1 : "Illegal capacity value";
+        assert capacity > 0 : "Illegal capacity value";
     }
 }

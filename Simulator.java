@@ -1,10 +1,14 @@
 
 package HW2;
 
+import com.sun.javafx.geom.Edge;
+
 import java.util.Collection;
 import java.util.List;
 
-public class Simulator<obj extends Object, workObj extends  Object> {
+
+//labelObj is the type of the labels of the objects, workObj is the type of the working objects. //TODO: write this correctly
+public class Simulator<labelObj extends Object, workObj extends  Object> {
 
     //Representation Invariant:
     //BipartiteGraph != null.
@@ -13,7 +17,7 @@ public class Simulator<obj extends Object, workObj extends  Object> {
     //The simulator contains a bipartite graph which represents filters as white nodes and pipes as black nodes.
     //rounds counts how many rounds the simulator has ran.
 
-    BipartiteGraph<obj> simulatorGraph = new BipartiteGraph<obj>();
+    BipartiteGraph<labelObj> simulatorGraph = new BipartiteGraph<labelObj>();
     private int rounds;
 
     /**
@@ -33,19 +37,42 @@ public class Simulator<obj extends Object, workObj extends  Object> {
      */
     public void simulate() {
         checkRep();
-        Collection<obj> blackNodes = simulatorGraph.listBlackNodes();
-        Collection<obj> whiteNodes = simulatorGraph.listWhiteNodes();
+        Collection<labelObj> blackNodes = simulatorGraph.listBlackNodes();
+        Collection<labelObj> whiteNodes = simulatorGraph.listWhiteNodes();
 
-        for (obj label : blackNodes) {
+        for (labelObj label : blackNodes) {
             Node<Pipe> workingPipeNode = simulatorGraph.getNodeByLabel(label);
             workingPipeNode.getNode().simulate();
         }
-        for (obj label : whiteNodes) {
+        for (labelObj label : whiteNodes) {
             Node<Filter> workingFilterNode = simulatorGraph.getNodeByLabel(label);
             workingFilterNode.getNode().simulate();
         }
         rounds++;
         checkRep();
+    }
+
+    /**
+     *
+     * @param label
+     * @param newCapacity
+     */
+    public void addPipe(Node newPipe) { //TODO: this.
+
+    }
+
+    /**
+     *
+     */
+    public void addFilter(Node newFilter) {//TODO: this.
+
+    }
+
+    /**
+     *
+     */
+    public void addEdge(labelObj newEdge) {//TODO: this.
+
     }
 
     private void checkRep() {

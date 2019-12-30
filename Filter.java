@@ -2,16 +2,19 @@
 package HW2;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public abstract class Filter<obj extends Object, workObj extends Object> implements Simulatable<obj> {
     //Representation Invariant:
-    //empty.
+    //workingObjects != null.
 
     //Abstraction Function:
     //label represents the object which the filter is for.
+    //workingObjects are the objcts that the filter contains.
+    //workingObjects is protected to that those who inherit from Pipe can use it.
 
     private obj label;
-    private ArrayList workingObjects;
+    protected ArrayList workingObjects;
 
     /**
      * @requires filterLabel != null.
@@ -37,5 +40,20 @@ public abstract class Filter<obj extends Object, workObj extends Object> impleme
      */
     public obj getLabel() {
         return label;
+    }
+
+    /**
+     *
+     * @param newWorkingObject
+     */
+    public void addWorkingObject(workObj newWorkingObject) {//TODO: this
+
+    }
+
+    /**
+     *
+     */
+    private void checkRep() { //TODO: this
+        Iterator<workObj> iter;
     }
 }
