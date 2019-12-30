@@ -2,9 +2,16 @@
 package HW2;
 
 /**
- * this class is a wrapper of the functional class nodeObj.
+ * This class is a wrapper of the functional class nodeObj.
  */
 public class Node<nodeObj extends Object> {
+
+    //Representation Invariant:
+    //functionalNode != null.
+
+    //Abstraction Function:
+    //This class is a wrapper for the node within a vertex, that contains the functionality of it.
+
     private final nodeObj functionalNode;
 
     /**
@@ -13,7 +20,9 @@ public class Node<nodeObj extends Object> {
      * @effects constructing a new node.
      */
     Node(nodeObj node) {
+        if (node == null) throw new IllegalArgumentException("Given node is null");
         functionalNode = node;
+        checkRep();
     }
 
     /**
@@ -22,7 +31,12 @@ public class Node<nodeObj extends Object> {
      * @effects returns the functional node.
      */
     public nodeObj getNode() {
+        checkRep();
         return functionalNode;
+    }
+
+    private void checkRep() {
+        assert functionalNode != null: "The functionalNode is null";
     }
 
 }

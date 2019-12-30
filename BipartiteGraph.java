@@ -22,6 +22,7 @@ public class BipartiteGraph<obj extends Object> {
     BipartiteGraph() {
         whiteNodes = new HashMap<obj, HW2.Vertex<obj>>();
         blackNodes = new HashMap<obj, HW2.Vertex<obj>>();
+        checkRep();
     }
 
     /**
@@ -44,30 +45,28 @@ public class BipartiteGraph<obj extends Object> {
     }
 
     /**
-     * @requires label != null , label doesn't already exists in blackVertexs or whiteNodes lists.
+     * @requires label != null , label doesn't already exists in blackNodes or whiteNodes lists.
      * @modifies blackNodes.
      * @effects adds a node with clone of label to the blackNodes hashset.
      */
     public void addBlackNode(obj label) {
         checkRep();
-        if (label == null) {
+        if (label == null)
             throw new IllegalArgumentException("can't initiate a black node with null or existing label");
-        }
         Vertex vert = new HW2.Vertex(label);
         blackNodes.put(label, vert);
         checkRep();
     }
 
     /**
-     * @requires label != null , label doesn't already exists in blackVertexs or whiteNodes lists.
+     * @requires label != null , label doesn't already exists in blackNodes or whiteNodes lists.
      * @modifies blackNodes.
      * @effects adds a node with clone of label to the blackNodes hashset.
      */
     public void addBlackNode(obj label, Node node) {
         checkRep();
-        if (label == null) {
+        if (label == null)
             throw new IllegalArgumentException("can't initiate a black node with null or existing label");
-        }
         Vertex vert = new HW2.Vertex(label, node);
         blackNodes.put(label, vert);
         checkRep();
@@ -80,9 +79,8 @@ public class BipartiteGraph<obj extends Object> {
      */
     public void addWhiteNode(obj label) {
         checkRep();
-        if (label == null || blackNodes.containsKey(label)) {
+        if (label == null || blackNodes.containsKey(label))
             throw new IllegalArgumentException("can't initiate a white node with null or existing label");
-        }
         Vertex n = new HW2.Vertex(label);
         whiteNodes.put(label, n);
         checkRep();
@@ -95,9 +93,8 @@ public class BipartiteGraph<obj extends Object> {
      */
     public void addWhiteNode(obj label, Node node) {
         checkRep();
-        if (label == null || blackNodes.containsKey(label)) {
+        if (label == null || blackNodes.containsKey(label))
             throw new IllegalArgumentException("can't initiate a white node with null or existing label");
-        }
         Vertex n = new HW2.Vertex(label, node);
         whiteNodes.put(label, n);
         checkRep();
@@ -111,9 +108,8 @@ public class BipartiteGraph<obj extends Object> {
      */
     public void addEdge(obj parentName, obj childName, obj edgeLabel) {
         checkRep();
-        if (parentName == null || childName == null || edgeLabel == null) {
+        if (parentName == null || childName == null || edgeLabel == null)
             throw new IllegalArgumentException("null argument detected when tried to add an edge");
-        }
         if (whiteNodes.containsKey(parentName) && blackNodes.containsKey(childName)) {
             whiteNodes.get(parentName).addEdgeToChild(childName, edgeLabel);
             blackNodes.get(childName).addEdgeFromParent(parentName, edgeLabel);
@@ -125,6 +121,7 @@ public class BipartiteGraph<obj extends Object> {
         else {
             throw new IllegalArgumentException("parent or child (or both) do not exist, or exist with the same color");
         }
+        checkRep();
     }
 
     /**
@@ -157,16 +154,19 @@ public class BipartiteGraph<obj extends Object> {
         if (whiteNodes.containsKey(parentName)) {
             for (obj nodeLabel : whiteNodes.keySet()) {
                 if (nodeLabel.equals(parentName)) {
+                    checkRep();
                     return whiteNodes.get(nodeLabel).getChildrenList();
                 }
             }
         } else if (blackNodes.keySet().contains(parentName)) {
             for (obj nodeLabel : blackNodes.keySet()) {
                 if (nodeLabel.equals(parentName)) {
+                    checkRep();
                     return blackNodes.get(nodeLabel).getChildrenList();
                 }
             }
         }
+        checkRep();
         return null;
     }
 
@@ -180,16 +180,19 @@ public class BipartiteGraph<obj extends Object> {
         if (whiteNodes.keySet().contains(childName)) {
             for (obj nodeLabel : whiteNodes.keySet()) {
                 if (nodeLabel.equals(childName)) {
+                    checkRep();
                     return whiteNodes.get(nodeLabel).getParentsList();
                 }
             }
         } else if (blackNodes.keySet().contains((childName))) {
             for (obj nodeLabel : blackNodes.keySet()) {
                 if (nodeLabel.equals(childName)) {
+                    checkRep();
                     return blackNodes.get(nodeLabel).getParentsList();
                 }
             }
         }
+        checkRep();
         return null;
     }
 
@@ -199,19 +202,16 @@ public class BipartiteGraph<obj extends Object> {
      * @effects returns a label (an obj) of the child connected to the parrentName node by the edgeLabel edge.
      */
     public obj getChildByEdgeLabel(obj parentName, obj edgeLabel) {
+        checkRep();
         obj childName;
-        if (parentName == null || edgeLabel == null) {
+        if (parentName == null || edgeLabel == null)
             throw new IllegalArgumentException("parentName or edgeLabel are null in getChildByEdge");
-        }
-        if (whiteNodes.containsKey(parentName)) {
+        if (whiteNodes.containsKey(parentName))
             childName = whiteNodes.get(parentName).getChildByEdgeLabel(edgeLabel);
-        }
-        else if (blackNodes.containsKey(parentName)) {
+        else if (blackNodes.containsKey(parentName))
             childName = blackNodes.get(parentName).getChildByEdgeLabel(edgeLabel);
-        }
-        else {
-            throw new IllegalArgumentException("tried to get to non existing node in getChildByEdgeLabel");
-        }
+        else throw new IllegalArgumentException("tried to get to non existing node in getChildByEdgeLabel");
+        checkRep();
         return childName;
     }
 
@@ -221,18 +221,16 @@ public class BipartiteGraph<obj extends Object> {
      * @effects returns a label (an obj) of the parent connected to the childName node by the edgeLabel edge.
      */
     public obj getParentByEdgeLabel(obj childName, obj edgeLabel) {
+        checkRep();
         obj parentName;
-        if (childName == null || edgeLabel == null) {
+        if (childName == null || edgeLabel == null)
             throw new IllegalArgumentException("childName or edgeLabel are null in getChildByEdge");
-        }
-        if (whiteNodes.containsKey(childName)) {
+        if (whiteNodes.containsKey(childName))
             parentName = whiteNodes.get(childName).getParentByEdgeLabel(edgeLabel);
-        } else if (blackNodes.containsKey(childName)) {
+        else if (blackNodes.containsKey(childName))
             parentName = blackNodes.get(childName).getParentByEdgeLabel(edgeLabel);
-        }
-        else {
-            throw new IllegalArgumentException("tried to get to non existing node in getParentByEdgeLabel");
-        }
+        else throw new IllegalArgumentException("tried to get to non existing node in getParentByEdgeLabel");
+        checkRep();
         return parentName;
     }
 
@@ -251,10 +249,8 @@ public class BipartiteGraph<obj extends Object> {
             }
         }
         for (obj node : blackNodes.keySet()) {
-           assert (!whiteNodes.keySet().contains(node)) : "Found two nodes with the same label, one black and one white";
-            //for (obj nodeFollow : whiteNodes.keySet()) {
-              //  assert (node.equals(nodeFollow)) : "Found two nodes with the same label, one black and one white";
-            //}
+           assert (!whiteNodes.keySet().contains(node)) :
+                   "Found two nodes with the same label, one black and one white";
         }
     }
 }

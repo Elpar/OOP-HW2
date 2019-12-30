@@ -6,8 +6,11 @@ import com.sun.javafx.geom.Edge;
 import java.util.Collection;
 import java.util.List;
 
-
-//labelObj is the type of the labels of the objects, workObj is the type of the working objects. //TODO: write this correctly
+/**
+ * This class is an implementation of the Simulator class required in the assignment.
+ * When creating a Simulator, it has the labelObj which is the type of the labels of the objects,
+ * and the workObj is the type of the working objects of the Simulator.
+ */
 public class Simulator<labelObj extends Object, workObj extends  Object> {
 
     //Representation Invariant:
@@ -42,37 +45,54 @@ public class Simulator<labelObj extends Object, workObj extends  Object> {
 
         for (labelObj label : blackNodes) {
             Node<Pipe> workingPipeNode = simulatorGraph.getNodeByLabel(label);
-            workingPipeNode.getNode().simulate();
+            workingPipeNode.getNode().simulate(simulatorGraph);
         }
         for (labelObj label : whiteNodes) {
             Node<Filter> workingFilterNode = simulatorGraph.getNodeByLabel(label);
-            workingFilterNode.getNode().simulate();
+            workingFilterNode.getNode().simulate(simulatorGraph);
         }
         rounds++;
         checkRep();
     }
 
     /**
-     *
-     * @param label
-     * @param newCapacity
+     * @requires newPipe != null, newLabel != null.
+     * @modifies this.
+     * @effects adds newPipe to simulatorGraph.
      */
-    public void addPipe(Node newPipe) { //TODO: this.
-
+    public void addPipe(Node newPipe, labelObj newLabel) {
+        checkRep();
+        if (newLabel == null) throw new IllegalArgumentException("The given label is null");
+        if (newPipe == null) throw new IllegalArgumentException("The given pipe is null");
+        simulatorGraph.addBlackNode(newLabel, newPipe);
+        checkRep();
     }
 
     /**
-     *
+     * @requires newFilter != null, newLabel != null.
+     * @modifies this.
+     * @effects adds newFilter to simulatorGraph.
      */
-    public void addFilter(Node newFilter) {//TODO: this.
-
+    public void addFilter(Node newFilter, labelObj newLabel) {
+        checkRep();
+        if (newLabel == null) throw new IllegalArgumentException("The given label is null");
+        if (newFilter == null) throw new IllegalArgumentException("The given filter is null");
+        simulatorGraph.addWhiteNode(newLabel, newFilter);
+        checkRep();
     }
 
     /**
-     *
+     * @requires parent != null, child != null, newEdge != null.
+     * @modifies this.
+     * @effects adds newEdge to simulatorGraph.
      */
-    public void addEdge(labelObj newEdge) {//TODO: this.
-
+    public void addEdge(labelObj parent, labelObj child, labelObj newEdge) {
+        checkRep();
+        if (parent == null) throw new IllegalArgumentException("The given parent is null");
+        if (child == null) throw new IllegalArgumentException("The given child is null");
+        if (newEdge == null) throw new IllegalArgumentException("The given edge label is null");
+        simulatorGraph.addEdge(parent, child, newEdge);
+        checkRep();
     }
 
     private void checkRep() {

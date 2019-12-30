@@ -6,7 +6,6 @@ import java.util.HashMap;
 /**
  * this class represents the topological vertex of a graph. Vertex consists of label, functional node and Maps of
  * children and parents whose keys are the edges labels
- * @param <labelObj>
  */
 public class Vertex<labelObj extends Object> {
     private labelObj label;
@@ -27,13 +26,21 @@ public class Vertex<labelObj extends Object> {
      * @effects initializes a new node with label nodeLabel.
      */
     Vertex(labelObj nodeLabel) {
+        if (nodeLabel == null) throw new IllegalArgumentException("The node label is illegal");
         label = nodeLabel;
         parents = new HashMap<labelObj,labelObj>();
         children = new  HashMap<labelObj,labelObj>();
         checkRep();
     }
 
+    /**
+     * @requires nodeLabel != null, functionalNode != null.
+     * @modifies this.
+     * @effects initializes a new node with label nodeLabel.
+     */
     Vertex(labelObj nodeLabel, Node functionalNode) {
+        if (nodeLabel == null) throw new IllegalArgumentException("The node label is illegal");
+        if (functionalNode == null) throw new IllegalArgumentException("The functional node is illegal");
         label = nodeLabel;
         node = functionalNode;
         parents = new HashMap<labelObj,labelObj>();
@@ -42,13 +49,21 @@ public class Vertex<labelObj extends Object> {
     }
 
     /**
-     * @requires node2 != null.
+     * @requires vertex2 != null & vertex2's class equals this's class.
      * @modifies none.
-     * @effects checks if the label of this equals the label of node2.
+     * @effects checks if the label of this equals the label of vertex2.
      */
-    public boolean equals(Vertex vertex2) { // TODO: check in lectures if this equals implementation corresponds with the hash!
-        if (vertex2 == null || getClass() != vertex2.getClass()) return false;
-        if (label.equals(vertex2.label)) return true;
+    public boolean equals(Vertex vertex2) {
+        checkRep();
+        if (vertex2 == null || getClass() != vertex2.getClass()) {
+            checkRep();
+            return false;
+        }
+        if (label.equals(vertex2.label)) {
+            checkRep();
+            return true;
+        }
+        checkRep();
         return false;
     }
 
@@ -59,9 +74,8 @@ public class Vertex<labelObj extends Object> {
      */
     public void addEdgeFromParent(labelObj parentName, labelObj edgeLabel) {
         checkRep();
-        if(parentName == null || edgeLabel == null){
-            throw new IllegalArgumentException("null parentName or edgelabel");
-        }
+        if (parentName == null) throw new IllegalArgumentException("The given parent name label is null");
+        if (edgeLabel == null) throw new IllegalArgumentException("The given edge label is null");
         parents.put(edgeLabel, parentName);
         checkRep();
     }
@@ -73,9 +87,8 @@ public class Vertex<labelObj extends Object> {
      */
     public void addEdgeToChild(labelObj childName, labelObj edgeLabel) {
         checkRep();
-        if(childName == null || edgeLabel == null){
-            throw new IllegalArgumentException("null childName or edgelabel");
-        }
+        if (childName == null) throw new IllegalArgumentException("The given child name label is null");
+        if (edgeLabel == null) throw new IllegalArgumentException("The given edge label is null");
         children.put(edgeLabel, childName);
         checkRep();
     }
@@ -87,6 +100,8 @@ public class Vertex<labelObj extends Object> {
      */
     boolean isOutgoingEdgeExists(labelObj edgeLabel) {
         checkRep();
+        if (edgeLabel == null) throw new IllegalArgumentException("The given edge label is null");
+        checkRep();
         return children.containsKey(edgeLabel);
     }
 
@@ -96,6 +111,8 @@ public class Vertex<labelObj extends Object> {
      * @effects returns false if an incoming edge with the same label exists, true if not.
      */
     boolean isIncomingEdgeExists(labelObj edgeLabel) {
+        checkRep();
+        if (edgeLabel == null) throw new IllegalArgumentException("The given edge label is null");
         checkRep();
         return parents.containsKey(edgeLabel);
     }
@@ -108,10 +125,11 @@ public class Vertex<labelObj extends Object> {
     public labelObj getChildByEdgeLabel(labelObj edgeLabel) {
         checkRep();
         labelObj childName;
-        if(edgeLabel == null || !children.containsKey(edgeLabel)){
-            throw new IllegalArgumentException("edgeLabel is null or is not an outgoing edge");
-        }
+        if (edgeLabel == null) throw new IllegalArgumentException("The given edge label is null");
+        if (!children.containsKey(edgeLabel))
+            throw new IllegalArgumentException("The given edge label is not an outgoing edge");
         childName = children.get(edgeLabel);
+        checkRep();
         return childName;
     }
 
@@ -123,9 +141,9 @@ public class Vertex<labelObj extends Object> {
     public labelObj getParentByEdgeLabel(labelObj edgeLabel) {
         checkRep();
         labelObj parentName;
-        if (edgeLabel == null || !parents.containsKey(edgeLabel)) {
-            throw new IllegalArgumentException("edgeLabel is null or is not an outgoing edge");
-        }
+        if (edgeLabel == null) throw new IllegalArgumentException("The given edge label is null");
+        if (!parents.containsKey(edgeLabel))
+            throw new IllegalArgumentException("The given edge label is not an incoming edge");
         parentName = parents.get(edgeLabel);
         return parentName;
     }
@@ -136,6 +154,7 @@ public class Vertex<labelObj extends Object> {
      * @effects returns a space-separated string of the children of this, alphabetically ordered.
      */
     public Collection<labelObj> getChildrenList() {
+        checkRep();
         return children.values();
     }
 
@@ -145,16 +164,24 @@ public class Vertex<labelObj extends Object> {
      * @effects returns a space-separated string of the parents of this, alphabetically ordered.
      */
     public Collection<labelObj> getParentsList() {
+        checkRep();
         return parents.values();
     }
 
-    public Node getNode(){
+    /**
+     * @requires none.
+     * @modifies none.
+     * @effects returns the node of this.
+     */
+    public Node getNode() {
+        checkRep();
         return node;
     }
 
-
-    private void checkRep() { //TODO: FIX THIS! Incorrect checks for same parents/children!!!
+    private void checkRep() {
         assert label != null : "Label is null";
+        assert children != null : "Children is null";
+        assert parents != null : "Parents is null";
         for (labelObj iter1 : parents.values()) {
             for (labelObj iter2 : parents.values()) {
                 if (iter1 == iter2) continue;
@@ -164,7 +191,6 @@ public class Vertex<labelObj extends Object> {
                 if (iter1 == iter2) continue;
                 assert !iter1.equals(iter2) : "Found two children that are the same in the node";
             }
-
         }
     }
 }
