@@ -20,15 +20,16 @@ public class Simulator<labelObj extends Object, workObj extends  Object> {
     //The simulator contains a bipartite graph which represents filters as white nodes and pipes as black nodes.
     //rounds counts how many rounds the simulator has ran.
 
-    BipartiteGraph<labelObj> simulatorGraph = new BipartiteGraph<labelObj>();
+    protected BipartiteGraph<labelObj> simulatorGraph;
     private int rounds;
 
     /**
      * @requires none.
      * @modifies this.
-     * @effects creates a new Simulator and zeroes rounds.
+     * @effects creates a new Simulator with an empty graph and zero rounds.
      */
     public Simulator() {
+        simulatorGraph = new BipartiteGraph<labelObj>();
         rounds = 0;
         checkRep();
     }
@@ -60,11 +61,12 @@ public class Simulator<labelObj extends Object, workObj extends  Object> {
      * @modifies this.
      * @effects adds newPipe to simulatorGraph.
      */
-    public void addPipe(Node newPipe, labelObj newLabel) {
+    public void addPipe(Pipe<labelObj,workObj> newPipe, labelObj newLabel) {
         checkRep();
         if (newLabel == null) throw new IllegalArgumentException("The given label is null");
         if (newPipe == null) throw new IllegalArgumentException("The given pipe is null");
-        simulatorGraph.addBlackNode(newLabel, newPipe);
+        Node<? extends Pipe<labelObj,workObj>> newNode = new Node<>(newPipe);
+        simulatorGraph.addBlackNode(newLabel, newNode);
         checkRep();
     }
 
@@ -73,11 +75,12 @@ public class Simulator<labelObj extends Object, workObj extends  Object> {
      * @modifies this.
      * @effects adds newFilter to simulatorGraph.
      */
-    public void addFilter(Node newFilter, labelObj newLabel) {
+    public void addFilter(Filter<labelObj,workObj> newFilter, labelObj newLabel) {
         checkRep();
         if (newLabel == null) throw new IllegalArgumentException("The given label is null");
         if (newFilter == null) throw new IllegalArgumentException("The given filter is null");
-        simulatorGraph.addWhiteNode(newLabel, newFilter);
+        Node<? extends Filter<labelObj,workObj>> newNode = new Node<>(newFilter);
+        simulatorGraph.addWhiteNode(newLabel, newNode);
         checkRep();
     }
 
@@ -93,6 +96,52 @@ public class Simulator<labelObj extends Object, workObj extends  Object> {
         if (newEdge == null) throw new IllegalArgumentException("The given edge label is null");
         simulatorGraph.addEdge(parent, child, newEdge);
         checkRep();
+    }
+
+    /**
+     * @requires pipeLabel != null, item != null.
+     * @modifies item.
+     * @effects adds item to pipeLabel if it has enough capacity left for it.
+     */
+    public void injectInput(labelObj pipeLabel, workObj item) {
+        checkRep();
+        if (pipeLabel == null) throw new IllegalArgumentException("Illegal pipe label for injection");
+        if (item == null) throw new IllegalArgumentException("Illegal item for injection to a pipe");
+        Node<Pipe> pipeFromGraph = simulatorGraph.getNodeByLabel(pipeLabel);
+        if (pipeFromGraph.getNode().isEnoughAmountLeft(item)) {
+            pipeFromGraph.getNode().addWorkingObject(item);
+        } else throw new ArithmeticException("Not enough amount left in the pipe to inject the given input");
+        checkRep();
+    }
+
+    /**
+     * @requires pipeLabel != null.
+     * @modifies none.
+     * @effects returns a node of the pipe labeled pipeLabel.
+     */
+    public Node<? extends Pipe<labelObj,workObj>> getPipeByLabel(labelObj pipeLabel) {
+        checkRep();
+        if (pipeLabel == null) throw new IllegalArgumentException("Given pipe label is null");
+        return simulatorGraph.getNodeByLabel(pipeLabel);
+    }
+
+    /**
+     * @requires filterLabel != null.
+     * @modifies none.
+     * @effects returns a node of the filter labeled filterLabel.
+     */
+    public Node<? extends Filter<labelObj,workObj>> getFilterByLabel(labelObj filterLabel) {
+        checkRep();
+        if (filterLabel == null) throw new IllegalArgumentException("Given pipe label is null");
+        return simulatorGraph.getNodeByLabel(filterLabel);
+    }
+
+    /**
+     *
+     */
+    public Collection getEdges() {
+        checkRep();
+        return simulatorGraph.getEdges();
     }
 
     private void checkRep() {

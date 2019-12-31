@@ -248,6 +248,18 @@ public class BipartiteGraph<obj extends Object> {
         return parentName;
     }
 
+    /**
+     * @requires none.
+     * @modifies none.
+     * @effects returns a collection of all the edges in the graph.
+     */
+    public Collection<obj> getEdges() {
+        Collection<obj> keys = blackNodes.keySet();
+        Collection<obj> whiteKeys = whiteNodes.keySet();
+        keys.addAll(whiteKeys);
+        return keys;
+    }
+
     private void checkRep() {
         //Check there are no duplicate nodes
         for (obj node : whiteNodes.keySet()) {

@@ -1,7 +1,7 @@
 
 package HW2;
 import java.util.*;
-
+//TODO: add checks for nulls! for all! check requires!
 /**
  * This class implements a testing driver for BipartiteGraph. The driver
  * manages BipartiteGraphs whose nodes and edges are Strings.
@@ -25,6 +25,7 @@ public class BipartiteGraphTestDriver {
      * 			empty.
      */
     public void createGraph(String graphName) {
+        if (graphName == null) throw new IllegalArgumentException("Given graphName is null in createGraph");
         BipartiteGraph bg = new BipartiteGraph<String>();
         graphs.put(graphName, bg);
     }
@@ -39,6 +40,8 @@ public class BipartiteGraphTestDriver {
      * 			graph named graphName.
      */
     public void addBlackNode(String graphName, String nodeName) {
+        if (graphName == null) throw new IllegalArgumentException("Given graphName is null in addBlackNode");
+        if (nodeName == null) throw new IllegalArgumentException("Given nodeName is null in addBlackNode");
         graphs.get(graphName).addBlackNode(nodeName);
     }
 
@@ -52,6 +55,9 @@ public class BipartiteGraphTestDriver {
      * 			graph named graphName.
      */
     public void addBlackNodeWithObject(String graphName, String nodeName, Node node) {
+        if (graphName == null) throw new IllegalArgumentException("Given graphName is null in addBlackNodeWithObject");
+        if (nodeName == null) throw new IllegalArgumentException("Given nodeName is null in addBlackNodeWithObject");
+        if (node == null) throw new IllegalArgumentException("Given node is null in addBlackNodeWithObject");
         graphs.get(graphName).addBlackNode(nodeName, node);
     }
 
@@ -65,6 +71,8 @@ public class BipartiteGraphTestDriver {
      * 			graph named graphName.
      */
     public void addWhiteNode(String graphName, String nodeName) {
+        if (graphName == null) throw new IllegalArgumentException("Given graphName is null in addWhiteNode");
+        if (nodeName == null) throw new IllegalArgumentException("Given nodeName is null in addWhiteNode");
         graphs.get(graphName).addWhiteNode(nodeName);
     }
 
@@ -78,6 +86,9 @@ public class BipartiteGraphTestDriver {
      * 			graph named graphName.
      */
     public void addWhiteNodeWithObject(String graphName, String nodeName, Node node) {
+        if (graphName == null) throw new IllegalArgumentException("Given graphName is null in addWhiteNodeWithObject");
+        if (nodeName == null) throw new IllegalArgumentException("Given nodeName is null in addWhiteNodeWithObject");
+        if (node == null) throw new IllegalArgumentException("Given node is null in addWhiteNodeWithObject");
         graphs.get(graphName).addWhiteNode(nodeName, node);
     }
 
@@ -95,9 +106,10 @@ public class BipartiteGraphTestDriver {
      * 			in the graph graphName. The new edge's label is the String
      * 			edgeLabel.
      */
-    public void addEdge(String graphName,
-    					String parentName, String childName, 
-                        String edgeLabel) {
+    public void addEdge(String graphName,String parentName, String childName, String edgeLabel) {
+        if (graphName == null) throw new IllegalArgumentException("Given graphName is null in addEdge");
+        if (childName == null) throw new IllegalArgumentException("Given childName is null in addEdge");
+        if (edgeLabel == null) throw new IllegalArgumentException("Given edgeLabel is null in addEdge");
     	graphs.get(graphName).addEdge(parentName, childName, edgeLabel);
     }
 
@@ -107,6 +119,7 @@ public class BipartiteGraphTestDriver {
      * 		   in the graph graphName, in alphabetical order.
      */
     public String listBlackNodes(String graphName) {
+        if (graphName == null) throw new IllegalArgumentException("Given graphName is null in listBlackNodes");
         Collection<String> blackNodes = graphs.get(graphName).listBlackNodes();
         String blackString = "";
         List<String> blackList = new ArrayList<String>();
@@ -131,6 +144,7 @@ public class BipartiteGraphTestDriver {
      * 		   in the graph graphName, in alphabetical order.
      */
     public String listWhiteNodes(String graphName) {
+        if (graphName == null) throw new IllegalArgumentException("Given graphName is null in listWhiteNodes");
         Collection<String> whiteNodes = graphs.get(graphName).listWhiteNodes();
         String whiteString = "";
         List<String> whiteList = new ArrayList<String>();
@@ -155,6 +169,8 @@ public class BipartiteGraphTestDriver {
      * 		   parentName in the graph graphName, in alphabetical order.
      */
     public String listChildren(String graphName, String parentName) {
+        if (graphName == null) throw new IllegalArgumentException("Given graphName is null in listChildren");
+        if (parentName == null) throw new IllegalArgumentException("Given parentName is null in listChildren");
         Collection<String> children = graphs.get(graphName).listChildren(parentName);
         String childrenString = "";
         List<String> childrenList = new ArrayList<String>();
@@ -179,6 +195,8 @@ public class BipartiteGraphTestDriver {
      * 		   childName in the graph graphName, in alphabetical order.
      */
     public String listParents(String graphName, String childName) {
+        if (graphName == null) throw new IllegalArgumentException("Given graphName is null in listParents");
+        if (childName == null) throw new IllegalArgumentException("Given childName is null in listParents");
         Collection<String> parents = graphs.get(graphName).listParents(childName);
         String parentsString = "";
         List<String> parentsList = new ArrayList<String>();
@@ -204,6 +222,9 @@ public class BipartiteGraphTestDriver {
      * 		   edge labeled edgeLabel, in the graph graphName.
      */
     public String getChildByEdgeLabel(String graphName, String parentName, String edgeLabel) {
+        if (graphName == null) throw new IllegalArgumentException("Given graphName is null in getChildByEdgeLabel");
+        if (parentName == null) throw new IllegalArgumentException("Given parentName is null in getChildByEdgeLabel");
+        if (edgeLabel == null) throw new IllegalArgumentException("Given edgeLabel is null in getChildByEdgeLabel");
     	return graphs.get(graphName).getChildByEdgeLabel(parentName,edgeLabel).toString();
     }
 
@@ -214,6 +235,9 @@ public class BipartiteGraphTestDriver {
      * 		   edge labeled edgeLabel, in the graph graphName.
      */
     public String getParentByEdgeLabel(String graphName, String childName, String edgeLabel) {
+        if (graphName == null) throw new IllegalArgumentException("Given graphName is null in getParentByEdgeLabel");
+        if (childName == null) throw new IllegalArgumentException("Given childName is null in getParentByEdgeLabel");
+        if (edgeLabel == null) throw new IllegalArgumentException("Given edgeLabel is null in getParentByEdgeLabel");
         return graphs.get(graphName).getParentByEdgeLabel(childName,edgeLabel).toString();
     }
 }

@@ -1,6 +1,7 @@
 
 package HW2;
-import java.util.Map;
+
+import java.util.*;
 
 /**
  * This class implements a testing driver for Simulator. The driver manages
@@ -15,7 +16,7 @@ public class SimulatorTestDriver {
 	 * @effects Constructs a new test driver.
 	 */
 	public SimulatorTestDriver() {
-        // TODO: Implement this constructor
+		simulators = new HashMap<String, Simulator<String,Transaction>>();
 	}
 
 	/**
@@ -25,21 +26,26 @@ public class SimulatorTestDriver {
 	 *          initially empty.
 	 */
 	public void createSimulator(String simName) {
-	    // TODO: Implement this method
+		if (simName == null) throw new IllegalArgumentException("Given simName is null in createSimulator");
+		Simulator simulator = new Simulator();
+		simulators.put(simName, simulator);
 	}
 
 	/**
 	 * @requires createSimulator(simName) 
-     *           && channelName != null && channelName has
-	 *           not been used in a previous addChannel()  or
+     *           && channelName != null && channelName has not been used in a previous addChannel()  or
 	 *           addParticipant() call on this object
 	 *           limit > 0
 	 * @modifies simulator named simName
 	 * @effects Creates a new Channel named by the String channelName, with a limit, and add it to
 	 *          the simulator named simName.
 	 */
-	public void addChannel(String simName, String channelName, double limit) {
-	    // TODO: Implement this method
+	public void addChannel(String simName, String channelName, int limit) {
+		if (simName == null) throw new IllegalArgumentException("Given simName is null in addChannel");
+		if (channelName == null) throw new IllegalArgumentException("Given channelName is null in addChannel");
+		if (limit <= 0) throw new ArithmeticException("Given limit is not a positive integer in addChannel");
+		Channel newChannel = new Channel(channelName, limit);
+		simulators.get(simName).addPipe(newChannel, channelName);
 	}
 
 	/**
@@ -53,7 +59,12 @@ public class SimulatorTestDriver {
 	 *          it to the simulator named simName.
 	 */
 	public void addParticipant(String simName, String participantName, String product, int amount) {
-        // TODO: Implement this method
+		if (simName == null) throw new IllegalArgumentException("Given simName is null in addParticipant");
+		if (participantName == null) throw new IllegalArgumentException("Given channelName is null in addParticipant");
+		if (product == null) throw new IllegalArgumentException("Given product is null in addParticipant");
+		if (amount <= 0) throw new ArithmeticException("Given amount is not a positive integer in addParticipant");
+		Participant newParticipant = new Participant(participantName, amount, product);
+		simulators.get(simName).addFilter(newParticipant, participantName);
 	}
 
 	/**
@@ -68,7 +79,11 @@ public class SimulatorTestDriver {
 	 *          is the String edgeLabel.
 	 */
 	public void addEdge(String simName, String parentName, String childName, String edgeLabel) {
-        // TODO: Implement this method
+		if (simName == null) throw new IllegalArgumentException("Given simName is null in addEdge");
+		if (parentName == null) throw new IllegalArgumentException("Given parentName is null in addEdge");
+		if (childName == null) throw new IllegalArgumentException("Given childName is null in addEdge");
+		if (edgeLabel == null) throw new IllegalArgumentException("Given edgeLabel is null in addEdge");
+		simulators.get(simName).addEdge(parentName,childName,edgeLabel);
 	}
 
 	/**
@@ -79,42 +94,62 @@ public class SimulatorTestDriver {
 	 *          simulator named simName.
 	 */
 	public void sendTransaction(String simName, String channelName, Transaction tx) {
-        // TODO: Implement this method
-
+		if (simName == null) throw new IllegalArgumentException("Given simName is null in sendTransaction");
+		if (channelName == null) throw new IllegalArgumentException("Given channelName is null in sendTransaction");
+		if (tx == null) throw new IllegalArgumentException("Given tx is null in sendTransaction");
+		simulators.get(simName).injectInput(channelName,tx);
     }
-	
-	
+
 	/**
 	 * @requires addChannel(channelName)
 	 * @return a space-separated list of the HW2.Transaction values currently in the
 	 *         channel named channelName in the simulator named simName.
 	 */
 	public String listContents(String simName, String channelName) {
-        // TODO: Implement this method
-		return null;
+		if (simName == null) throw new IllegalArgumentException("Given simName is null in listContents");
+		if (channelName == null) throw new IllegalArgumentException("Given channelName is null in listContents");
+		ArrayList<Transaction> txList = simulators.get(simName).getPipeByLabel(channelName).getNode().getContents();
+		List<Integer> contents = new ArrayList<Integer>();
+		String contentsString = "";
+		Iterator<Transaction> iter = txList.iterator();
+		while(iter.hasNext()) {
+			contents.add(iter.next().getAmount());
+		}
+		Iterator<Integer> iterInt = contents.iterator();
+		while(iterInt.hasNext()) {
+			contentsString += iterInt.next().toString();
+			if(iterInt.hasNext()) contentsString += " ";
+		}
+		return contentsString;
 	}
-
 
 	/**
 	 * @requires addParticipant(participantName)
 	 * @return The sum of all HW2.Transaction amount of stored products that one has in his storage buffer.
 	 */
-	public double getParticipantStorageAmount(String simName, String participantName) {
-        // TODO: Implement this method
-		return 0;
+	public int getParticipantStorageAmount(String simName, String participantName) {
+		if (simName == null)
+			throw new IllegalArgumentException("Given simName is null in getParticipantStorageAmount");
+		if (participantName == null)
+			throw new IllegalArgumentException("Given participantName is null in getParticipantStorageAmount");
+		int storageBufferAmount =
+				simulators.get(simName).getFilterByLabel(participantName).getNode().getStorageBufferAmount();
+		return storageBufferAmount;
 	}
-
 
 	/**
 	 * @requires addParticipant(participantName)
 	 * @return The sum of all HW2.Transaction amount of waiting to be recycled products that one has.
 	 */
-	public double getParticipantToRecycleAmount(String simName, String participantName) {
-        // TODO: Implement this method
-		return 0;
+	public int getParticipantToRecycleAmount(String simName, String participantName) {
+		if (simName == null)
+			throw new IllegalArgumentException("Given simName is null in getParticipantToRecycleAmount");
+		if (participantName == null)
+			throw new IllegalArgumentException("Given participantName is null in getParticipantToRecycleAmount");
+		int objectsToPassAmount =
+				simulators.get(simName).getFilterByLabel(participantName).getNode().getObjectsToPassAmount();
+		return objectsToPassAmount;
 	}
-
-
 	
 	/**
 	 * @requires createSimulator(simName)
@@ -122,17 +157,23 @@ public class SimulatorTestDriver {
 	 * @effects runs simulator named simName for a single time slice.
 	 */
 	public void simulate(String simName) {
-        // TODO: Implement this method
+		if (simName == null) throw new IllegalArgumentException("Given simName is null in simulate");
+		simulators.get(simName).simulate();
 	}
 
 	/**
-	 * Prints the all edges.
+	 * Prints all the edges.
 	 *
-	 * @requires simName the sim name
-	 * @effects Prints the all edges.
+	 * @requires simName the sim name.
+	 * @modifies none.
+	 * @effects Prints all the edges.
 	 */
 	public void printAllEdges(String simName) {
-        // TODO: Implement this method
+		if (simName == null) throw new IllegalArgumentException("Given simName is null in printAllEdges");
+		Collection edges = simulators.get(simName).getEdges();
+		Iterator iter = edges.iterator();
+		while(iter.hasNext()) {
+			System.out.println(iter.next());
+		}
 	}
-
 }

@@ -62,7 +62,7 @@ public class BipartiteGraphTest {
         assertEquals("wrong parent by edge","nb2", driver.getParentByEdgeLabel("graph2","nw2", "e2"));
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testAddingNodesWithTheSameName() {
         HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
@@ -129,7 +129,7 @@ public class BipartiteGraphTest {
         assertEquals("wrong parents", "n1", driver.listParents ("graph6", "n2"));
     }
 
-    @Test(expected = IllegalArgumentException.class) //TODO: make this TRUE or remove!!!
+    @Test(expected = IllegalArgumentException.class)
     public void testGivenNullInputToWhiteNodeWithoutObject() {
         HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 

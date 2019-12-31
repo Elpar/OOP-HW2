@@ -2,6 +2,7 @@
 package HW2;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public abstract class Pipe<obj extends Object, workObj extends Object> implements Simulatable<obj> {
     //Representation Invariant:
@@ -16,7 +17,7 @@ public abstract class Pipe<obj extends Object, workObj extends Object> implement
     //workingObjects is protected to that those who inherit from Filter can use it.
 
     private obj label;
-    private Double capacity;
+    private Integer capacity;
     protected ArrayList<workObj> workingObjects;
 
     /**
@@ -24,7 +25,7 @@ public abstract class Pipe<obj extends Object, workObj extends Object> implement
      * @modifies this.
      * @effects constructs a new pipe with given capacity.
      */
-    public Pipe(obj pipeLabel, double givenCapacity) {
+    public Pipe(obj pipeLabel, int givenCapacity) {
         if (givenCapacity <= 0) throw new IllegalArgumentException("Capacity must be greater than 0");
         label = pipeLabel;
         workingObjects = new ArrayList<workObj>();
@@ -54,7 +55,7 @@ public abstract class Pipe<obj extends Object, workObj extends Object> implement
      * @modifies this.
      * @effects set the pipe's capacity.
      */
-    public void setPipeCapacity (double pipeCapacity) {
+    public void setPipeCapacity (int pipeCapacity) {
         checkRep();
         capacity = pipeCapacity;
         checkRep();
@@ -65,33 +66,48 @@ public abstract class Pipe<obj extends Object, workObj extends Object> implement
      * @modifies none.
      * @effects returns the pipe's capacity
      */
-    public double getPipeCapacity() {
+    public int getPipeCapacity() {
         checkRep();
         return capacity;
     }
 
-    /**
-     * @requires capacityRequest is a possitive integer.
-     * @modifies none.
-     * @effects returns true if the pipe can receive the request, false otherwise.
-     */
-    public boolean isEnoughCapacity(int capacityRequest) {
-        checkRep();
-        if (capacityRequest < 0) throw new IllegalArgumentException("Capacity value is illegal");
-        return (capacityRequest <= capacity);
-    }
+//    /**
+//     * @requires capacityRequest is a possitive integer.
+//     * @modifies none.
+//     * @effects returns true if the pipe can receive the request, false otherwise.
+//     */
+//    public boolean isEnoughCapacity(int capacityRequest) {
+//        checkRep();
+//        if (capacityRequest < 0) throw new IllegalArgumentException("Capacity value is illegal");
+//        return (capacityRequest <= capacity);
+//    }
 
     /**
-     * @requires newWorkingObject != null.
+     * @requires newWorkingObject != null, amount of all the objects cannot be more than (this.capacity).
      * @modifies this.
-     * @effects adds newWorkingObject to workingObjects if it has enough room.
+     * @effects adds newWorkingObject to workingObjects.
      */
     public void addWorkingObject(workObj newWorkingObject) {
         checkRep();
-        if (workingObjects.size() >= capacity) throw new ArrayIndexOutOfBoundsException("The pipe is full");
+        if (newWorkingObject != null) throw new IllegalArgumentException("The given working object is null");
+        if (!isEnoughAmountLeft(newWorkingObject)) throw new ArithmeticException("Not enough capacity left");
         workingObjects.add(newWorkingObject);
         checkRep();
     }
+
+    /**
+     * @requires workingObject != null.
+     * @modifies none.
+     * @effects returns true if there's enough amount left in the pipe, false otherwise.
+     */
+    abstract public boolean isEnoughAmountLeft(workObj workingObject);
+
+    /**
+     * @requires none.
+     * @modifies none.
+     * @effects returns the contents of workingObjects.
+     */
+    abstract public ArrayList<workObj> getContents();
 
     private void checkRep() {
         assert workingObjects != null : "workingObjects is null!";

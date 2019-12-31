@@ -9,7 +9,7 @@ import java.util.HashMap;
  */
 public class Vertex<labelObj extends Object> {
     private labelObj label;
-    private Node node = null;
+    private Node<? extends Object> node = null;
     private HashMap<labelObj, labelObj> parents;
     private HashMap<labelObj, labelObj> children;
 

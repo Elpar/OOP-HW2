@@ -24,9 +24,11 @@ public class Transaction {
 	/**
 	 * @effects Returns the amount of the transaction
 	 */
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
+
+    public void substractAmount(int amountToSubstract) { amount -= amountToSubstract; }
     
 	/**
 	 * @effects Returns the product of the transaction
