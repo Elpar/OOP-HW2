@@ -2,6 +2,13 @@
 package HW2;
 import java.util.*;
 
+/**
+ * This class represents a graph of two color sets: black and white.
+ * The graph is directed, where black vertexes can be directed to white vertexes and vice versa, but not to the same
+ * color (white cannot point to white and black cannot point to black).
+ * The graph is generic and can be instantiated with any class that extends the Java's generic Object class.
+ * The sets contain vertexes of the two colors to be called and used by the test driver.
+ */
 public class BipartiteGraph<obj extends Object> {
     private HashMap<obj, Vertex<obj>> whiteNodes;
     private HashMap<obj, Vertex<obj>> blackNodes;
@@ -116,7 +123,7 @@ public class BipartiteGraph<obj extends Object> {
     public void addEdge(obj parentName, obj childName, obj edgeLabel) {
         checkRep();
         if (parentName == null || childName == null || edgeLabel == null)
-            throw new IllegalArgumentException("null argument detected when tried to add an edge");
+            throw new IllegalArgumentException("Null argument detected when tried to add an edge");
         if (whiteNodes.containsKey(parentName) && blackNodes.containsKey(childName)) {
             whiteNodes.get(parentName).addEdgeToChild(childName, edgeLabel);
             blackNodes.get(childName).addEdgeFromParent(parentName, edgeLabel);

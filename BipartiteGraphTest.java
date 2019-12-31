@@ -129,8 +129,7 @@ public class BipartiteGraphTest {
         assertEquals("wrong parents", "n1", driver.listParents ("graph6", "n2"));
     }
 
-    //TODO: Continue tests from here!!!!!
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class) //TODO: make this TRUE or remove!!!
     public void testGivenNullInputToWhiteNodeWithoutObject() {
         HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
@@ -139,7 +138,6 @@ public class BipartiteGraphTest {
 
         //add an invalid node
         driver.addWhiteNode("graph7", null);
-
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -152,7 +150,6 @@ public class BipartiteGraphTest {
         //add some nodes
         Node node = new Node<String>("1");
         driver.addWhiteNodeWithObject("graph8", null, node);
-
     }
 
 @Test(expected = IllegalArgumentException.class)
@@ -164,7 +161,6 @@ public class BipartiteGraphTest {
 
         //add some nodes
         driver.addWhiteNodeWithObject("graph9", "nw1", null);
-
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -177,7 +173,6 @@ public class BipartiteGraphTest {
         //add some nodes
         Node node = new Node<String>("1");
         driver.addBlackNodeWithObject("graph10", null, node);
-
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -201,7 +196,7 @@ public class BipartiteGraphTest {
         //add some nodes
         driver.addBlackNode("graph11", null);
     }
-//TODO: continue from here
+
     @Test
     public void testCheckMultipleChilren() {
         HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
@@ -276,5 +271,20 @@ public class BipartiteGraphTest {
         assertEquals("wrong children for white node nbwo2", "nw1 nwwo1", driver.listChildren ("graph13", "nbwo2"));
         assertEquals("wrong parents for white node nw1", "nb1 nb2 nbwo1 nbwo2", driver.listParents ("graph13", "nw1"));
         assertEquals("wrong parents for white node nwwo1", "nb1 nb2 nbwo1 nbwo2", driver.listParents ("graph13", "nwwo1"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddIllegalEdge() {
+        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+
+        //create a graph
+        driver.createGraph("graph14");
+
+        //add some nodes
+        driver.addWhiteNode("graph14", "nw1");
+        driver.addBlackNode("graph14", "nb1");
+
+        //add illegal edge
+        driver.addEdge("graph14", "nw1", "nb1", null);
     }
 }
