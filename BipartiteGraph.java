@@ -50,22 +50,26 @@ public class BipartiteGraph<obj extends Object> {
      */
     public void addBlackNode(obj label) {
         checkRep();
-        if (label == null)
-            throw new IllegalArgumentException("can't initiate a black node with null or existing label");
+        if (label == null) throw new IllegalArgumentException("Can't initiate a black node with null label");
+        if (blackNodes.containsKey(label) || whiteNodes.containsKey(label))
+            throw new IllegalArgumentException("Can't initiate a black node with already existing label");
         Vertex vert = new HW2.Vertex(label);
         blackNodes.put(label, vert);
         checkRep();
     }
 
     /**
-     * @requires label != null , label doesn't already exists in blackNodes or whiteNodes lists.
+     * @requires label != null , label doesn't already exists in blackNodes or whiteNodes lists, node != null.
      * @modifies blackNodes.
      * @effects adds a node with clone of label to the blackNodes hashset.
      */
     public void addBlackNode(obj label, Node node) {
         checkRep();
         if (label == null)
-            throw new IllegalArgumentException("can't initiate a black node with null or existing label");
+            throw new IllegalArgumentException("Can't initiate a black node with object with null label");
+        if (blackNodes.containsKey(label) || whiteNodes.containsKey(label))
+            throw new IllegalArgumentException("Can't initiate a black node with object with already existing label");
+        if (node == null) throw new IllegalArgumentException("Can't initiate a black node with null object");
         Vertex vert = new HW2.Vertex(label, node);
         blackNodes.put(label, vert);
         checkRep();
@@ -78,22 +82,26 @@ public class BipartiteGraph<obj extends Object> {
      */
     public void addWhiteNode(obj label) {
         checkRep();
-        if (label == null || blackNodes.containsKey(label))
-            throw new IllegalArgumentException("can't initiate a white node with null or existing label");
+        if (label == null) throw new IllegalArgumentException("Can't initiate a white node with null label");
+        if (blackNodes.containsKey(label) || whiteNodes.containsKey(label))
+            throw new IllegalArgumentException("Can't initiate a white node with already existing label");
         Vertex n = new HW2.Vertex(label);
         whiteNodes.put(label, n);
         checkRep();
     }
 
     /**
-     * @requires label != null , label doesn't already exists in blackNodes or whiteNodes lists.
+     * @requires label != null , label doesn't already exists in blackNodes or whiteNodes lists, node != null.
      * @modifies whiteNodes.
      * @effects adds a node with clone of label to the whiteNodes hashset.
      */
     public void addWhiteNode(obj label, Node node) {
         checkRep();
-        if (label == null || blackNodes.containsKey(label))
-            throw new IllegalArgumentException("can't initiate a white node with null or existing label");
+        if (label == null)
+            throw new IllegalArgumentException("Can't initiate a white node with object with null label");
+        if (blackNodes.containsKey(label) || whiteNodes.containsKey(label))
+            throw new IllegalArgumentException("Can't initiate a white node with object with already existing label");
+        if (node == null) throw new IllegalArgumentException("Can't initiate a white node with null object");
         Vertex n = new HW2.Vertex(label, node);
         whiteNodes.put(label, n);
         checkRep();

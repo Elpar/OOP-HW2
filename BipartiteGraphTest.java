@@ -62,7 +62,7 @@ public class BipartiteGraphTest {
         assertEquals("wrong parent by edge","nb2", driver.getParentByEdgeLabel("graph2","nw2", "e2"));
     }
 
-    @Test(expected = ??!???!??!!?! HOW TO CATCH THE ASSERT??)
+    @Test
     public void testAddingNodesWithTheSameName() {
         HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
@@ -71,7 +71,7 @@ public class BipartiteGraphTest {
 
         //add some nodes
         driver.addBlackNode("graph3", "nb1");
-        driver.addWhiteNode("graph3", "nb1");
+        driver.addWhiteNode("graph3", "nb1"); //should fail at checkRep().
 	}
 
     @Test(expected = IllegalArgumentException.class)
@@ -130,63 +130,113 @@ public class BipartiteGraphTest {
     }
 
     //TODO: Continue tests from here!!!!!
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testGivenNullInputToWhiteNodeWithoutObject() {
         HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
-        driver.createGraph("graph5");
+        driver.createGraph("graph7");
 
-        //add some nodes
-        driver.addWhiteNode("graph5", "nw1");
+        //add an invalid node
+        driver.addWhiteNode("graph7", null);
 
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testGivenNullInputToWhiteNodeWithObject() {
         HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
-        driver.createGraph("graph5");
+        driver.createGraph("graph8");
 
         //add some nodes
-        driver.addWhiteNode("graph5", "nw1");
+        Node node = new Node<String>("1");
+        driver.addWhiteNodeWithObject("graph8", null, node);
 
     }
 
-    @Test
+@Test(expected = IllegalArgumentException.class)
+    public void testGivenInputToWhiteNodeWithNullObject() {
+        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+
+        //create a graph
+        driver.createGraph("graph9");
+
+        //add some nodes
+        driver.addWhiteNodeWithObject("graph9", "nw1", null);
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
     public void testGivenNullInputToBlackNodeWithObject() {
         HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
-        driver.createGraph("graph5");
+        driver.createGraph("graph10");
 
         //add some nodes
-        driver.addBlackNode("graph5", "nb1");
+        Node node = new Node<String>("1");
+        driver.addBlackNodeWithObject("graph10", null, node);
 
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
+    public void testGivenInputToBlackNodeWithNullObject() {
+        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+
+        //create a graph
+        driver.createGraph("graph10");
+
+        //add some nodes
+        driver.addBlackNodeWithObject("graph10", "nb1", null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
     public void testGivenNullInputToBlackNodeWithoutObject() {
         HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
-        driver.createGraph("graph5");
+        driver.createGraph("graph11");
 
         //add some nodes
-        driver.addBlackNode("graph5", "nb1");
-
+        driver.addBlackNode("graph11", null);
     }
-
+//TODO: continue from here
     @Test
     public void testCheckMultipleChilren() {
         HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
-        driver.createGraph("graph5");
+        driver.createGraph("graph12");
 
         //add some nodes
-        driver.addBlackNode("graph5", "nb1");
+        Node node1 = new Node<String>("1");
+        Node node2 = new Node<String>("2");
+        driver.addBlackNode("graph12", "nb1");
+        driver.addWhiteNode("graph12", "nw1");
+        driver.addWhiteNode("graph12", "nw2");
+        driver.addWhiteNodeWithObject("graph12", "nwwo1", node1);
+        driver.addWhiteNodeWithObject("graph12", "nwwo2", node2);
+
+        //add edges
+        driver.addEdge("graph12", "nb1", "nw1", "e1");
+        driver.addEdge("graph12", "nb1", "nw2", "e2");
+        driver.addEdge("graph12", "nb1", "nwwo1", "e3");
+        driver.addEdge("graph12", "nb1", "nwwo2", "e4");
+
+        //checks
+        assertEquals("wrong black nodes", "nb1", driver.listBlackNodes("graph12"));
+        assertEquals("wrong white nodes", "nw1 nw2 nwwo1 nwwo2", driver.listWhiteNodes("graph12"));
+        assertEquals("wrong children for black node", "nw1 nw2 nwwo1 nwwo2", driver.listChildren ("graph12", "nb1"));
+        assertEquals("wrong children for white node nw1", "", driver.listChildren ("graph12", "nw1"));
+        assertEquals("wrong children for white node nw2", "", driver.listChildren ("graph12", "nw2"));
+        assertEquals("wrong children for white node nwwo1", "", driver.listChildren ("graph12", "nwwo1"));
+        assertEquals("wrong children for white node nwwo2", "", driver.listChildren ("graph12", "nwwo2"));
+        assertEquals("wrong parents for black node", "", driver.listParents ("graph12", "nb1"));
+        assertEquals("wrong parents for white node nw1", "nb1", driver.listParents ("graph12", "nw1"));
+        assertEquals("wrong parents for white node nw2", "nb1", driver.listParents ("graph12", "nw2"));
+        assertEquals("wrong parents for white node nwwo1", "nb1", driver.listParents ("graph12", "nwwo1"));
+        assertEquals("wrong parents for white node nwwo2", "nb1", driver.listParents ("graph12", "nwwo2"));
     }
 
     @Test
@@ -194,9 +244,37 @@ public class BipartiteGraphTest {
         HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
-        driver.createGraph("graph5");
+        driver.createGraph("graph13");
 
         //add some nodes
-        driver.addBlackNode("graph5", "nb1");
+        Node node1 = new Node<String>("1");
+        Node node2 = new Node<String>("2");
+        Node node3 = new Node<String>("3");
+        driver.addBlackNode("graph13", "nb1");
+        driver.addBlackNode("graph13", "nb2");
+        driver.addBlackNodeWithObject("graph13", "nbwo1", node1);
+        driver.addBlackNodeWithObject("graph13", "nbwo2", node2);
+        driver.addWhiteNode("graph13", "nw1");
+        driver.addWhiteNodeWithObject("graph13", "nwwo1", node3);
+
+        //add edges
+        driver.addEdge("graph13", "nb1", "nw1", "e1");
+        driver.addEdge("graph13", "nb2", "nw1", "e2");
+        driver.addEdge("graph13", "nbwo1", "nw1", "e3");
+        driver.addEdge("graph13", "nbwo2", "nw1", "e4");
+        driver.addEdge("graph13", "nb1", "nwwo1", "e5");
+        driver.addEdge("graph13", "nb2", "nwwo1", "e6");
+        driver.addEdge("graph13", "nbwo1", "nwwo1", "e7");
+        driver.addEdge("graph13", "nbwo2", "nwwo1", "e8");
+
+        //checks
+        assertEquals("wrong black nodes", "nb1 nb2 nbwo1 nbwo2", driver.listBlackNodes("graph13"));
+        assertEquals("wrong white nodes", "nw1 nwwo1", driver.listWhiteNodes("graph13"));
+        assertEquals("wrong children for black node nb1", "nw1 nwwo1", driver.listChildren ("graph13", "nb1"));
+        assertEquals("wrong children for white node nbwo1", "nw1 nwwo1", driver.listChildren ("graph13", "nbwo1"));
+        assertEquals("wrong children for black node nb2", "nw1 nwwo1", driver.listChildren ("graph13", "nb2"));
+        assertEquals("wrong children for white node nbwo2", "nw1 nwwo1", driver.listChildren ("graph13", "nbwo2"));
+        assertEquals("wrong parents for white node nw1", "nb1 nb2 nbwo1 nbwo2", driver.listParents ("graph13", "nw1"));
+        assertEquals("wrong parents for white node nwwo1", "nb1 nb2 nbwo1 nbwo2", driver.listParents ("graph13", "nwwo1"));
     }
 }
