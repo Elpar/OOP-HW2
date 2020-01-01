@@ -1,18 +1,18 @@
 
-package HW2;
+package homework2;
 
 import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * HW2.BipartiteGraphTest contains JUnit block-box unit tests for BipartiteGraph.
+ * homework2.BipartiteGraphTest contains JUnit block-box unit tests for BipartiteGraph.
  */
 public class BipartiteGraphTest {
 
 	@Test
     public void testExample() {
-        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        homework2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
         
         //create a graph
         driver.createGraph("graph1");
@@ -35,7 +35,7 @@ public class BipartiteGraphTest {
     
     @Test
     public void testGetByEdge() {
-        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        homework2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
 	    driver.createGraph("graph2");
@@ -64,7 +64,7 @@ public class BipartiteGraphTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddingNodesWithTheSameName() {
-        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        homework2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
         driver.createGraph("graph3");
@@ -76,7 +76,7 @@ public class BipartiteGraphTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testSameBlackColorsConnected() {
-        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        homework2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
         driver.createGraph("graph4");
@@ -91,7 +91,7 @@ public class BipartiteGraphTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testSameWhiteColorsConnected() {
-        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        homework2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
         driver.createGraph("graph5");
@@ -106,7 +106,7 @@ public class BipartiteGraphTest {
 
     @Test
     public void testAddingNodesWithObjects() {
-        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        homework2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
         driver.createGraph("graph6");
@@ -131,7 +131,7 @@ public class BipartiteGraphTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testGivenNullInputToWhiteNodeWithoutObject() {
-        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        homework2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
         driver.createGraph("graph7");
@@ -142,7 +142,7 @@ public class BipartiteGraphTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testGivenNullInputToWhiteNodeWithObject() {
-        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        homework2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
         driver.createGraph("graph8");
@@ -154,7 +154,7 @@ public class BipartiteGraphTest {
 
 @Test(expected = IllegalArgumentException.class)
     public void testGivenInputToWhiteNodeWithNullObject() {
-        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        homework2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
         driver.createGraph("graph9");
@@ -165,7 +165,7 @@ public class BipartiteGraphTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testGivenNullInputToBlackNodeWithObject() {
-        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        homework2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
         driver.createGraph("graph10");
@@ -177,7 +177,7 @@ public class BipartiteGraphTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testGivenInputToBlackNodeWithNullObject() {
-        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        homework2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
         driver.createGraph("graph10");
@@ -188,7 +188,7 @@ public class BipartiteGraphTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testGivenNullInputToBlackNodeWithoutObject() {
-        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        homework2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
         driver.createGraph("graph11");
@@ -199,7 +199,7 @@ public class BipartiteGraphTest {
 
     @Test
     public void testCheckMultipleChilren() {
-        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        homework2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
         driver.createGraph("graph12");
@@ -236,7 +236,7 @@ public class BipartiteGraphTest {
 
     @Test
     public void testCheckMultipleParents() {
-        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        homework2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
         driver.createGraph("graph13");
@@ -275,7 +275,7 @@ public class BipartiteGraphTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddIllegalEdge() {
-        HW2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
+        homework2.BipartiteGraphTestDriver driver = new BipartiteGraphTestDriver();
 
         //create a graph
         driver.createGraph("graph14");

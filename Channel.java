@@ -1,5 +1,5 @@
 
-package HW2;
+package homework2;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,8 +12,6 @@ public class Channel extends Pipe<String,Transaction> {
     //Abstraction Function:
     //The simulate(BipartiteGraph<String>) implementation represents a channel.
 
-    int nextParticipantToGetTxn;
-
     /**
      * @requires label != null, capacity > 0.
      * @modifies none.
@@ -24,7 +22,6 @@ public class Channel extends Pipe<String,Transaction> {
         if (label == null) throw new IllegalArgumentException("Given label is null in Channel constructor");
         if (capacity <= 0)
             throw new ArithmeticException("Given capacity is not a positive integer in Channel constructor");
-        nextParticipantToGetTxn = 0;
         checkRep();
     }
 
@@ -85,16 +82,14 @@ public class Channel extends Pipe<String,Transaction> {
         if (graph == null) throw new IllegalArgumentException("Given graph is null in simulate");
         //Pass one transaction to one child
         if (!graph.listChildren(super.getLabel()).iterator().hasNext()) return; // in this case - no children
-        String currentLabel = graph.listChildren(super.getLabel()).iterator().next();
-        Node<Participant> childParticipantNode = null;
-        if (graph.getNodeByLabel(currentLabel).getClass() != childParticipantNode.getClass())
-            throw new IllegalStateException("illegel filter found in simulator");
-        childParticipantNode = graph.getNodeByLabel(currentLabel);
-        Participant childParticipant = childParticipantNode.getNode();
-        childParticipant.addTransaction(super.workingObjects.remove(nextParticipantToGetTxn)); //TODO: make sure remove actually returns the transaction
-        nextParticipantToGetTxn ++;
-        nextParticipantToGetTxn %= super.workingObjects.size();
-        checkRep();
+        if (super.workingObjects.size() > 0) {
+            String currentLabel = graph.listChildren(super.getLabel()).iterator().next();
+            Node<Participant> childParticipantNode = graph.getNodeByLabel(currentLabel);
+            Participant childParticipant = childParticipantNode.getNode();
+            childParticipant.addWorkingObject(super.workingObjects.get(super.workingObjects.size()-1)); //TODO: make sure remove actually returns the transaction
+            super.workingObjects.remove(super.workingObjects.size()-1);
+            checkRep();
+        }
     }
 
     /**

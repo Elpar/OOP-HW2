@@ -1,5 +1,5 @@
 
-package HW2;
+package homework2;
 import java.util.*;
 //TODO: add checks for nulls! for all! check requires!
 /**

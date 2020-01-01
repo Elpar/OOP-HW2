@@ -1,5 +1,6 @@
 
-package HW2;
+package homework2;
+
 import java.util.*;
 
 /**
@@ -12,6 +13,7 @@ import java.util.*;
 public class BipartiteGraph<obj extends Object> {
     private HashMap<obj, Vertex<obj>> whiteNodes;
     private HashMap<obj, Vertex<obj>> blackNodes;
+    private HashMap<obj, Edge<obj>> edges;
 
     //Representation Invariant:
     //whiteNodes != null & blackNodes != null and do not contain 2 (or more) of the same node in both sets combined.
@@ -27,8 +29,9 @@ public class BipartiteGraph<obj extends Object> {
      * @effects create a new bipartite graph with the label graphLabel and initialized empty nodes lists.
      */
     BipartiteGraph() {
-        whiteNodes = new HashMap<obj, HW2.Vertex<obj>>();
-        blackNodes = new HashMap<obj, HW2.Vertex<obj>>();
+        whiteNodes = new HashMap<obj, Vertex<obj>>();
+        blackNodes = new HashMap<obj, homework2.Vertex<obj>>();
+        edges = new HashMap<obj, Edge<obj>>();
         checkRep();
     }
 
@@ -40,11 +43,11 @@ public class BipartiteGraph<obj extends Object> {
     public Node getNodeByLabel(obj label) {
         checkRep();
         if (label == null) return null;
-        for (Vertex iter : blackNodes.values()) {
-            if (iter.equals(label)) return iter.getNode();
+        for (obj iter : blackNodes.keySet()) {
+            if (iter.equals(label)) return blackNodes.get(iter).getNode();
         }
-        for (HashMap.Entry<obj,Vertex<obj>> iter : whiteNodes.entrySet()) {
-            if (iter.getKey().equals(label)) return iter.getValue().getNode();
+        for (obj iter : whiteNodes.keySet()) {
+            if (iter.equals(label)) return whiteNodes.get(iter).getNode();
         }
         checkRep();
         return null; //label doesn't exist
@@ -60,7 +63,7 @@ public class BipartiteGraph<obj extends Object> {
         if (label == null) throw new IllegalArgumentException("Can't initiate a black node with null label");
         if (blackNodes.containsKey(label) || whiteNodes.containsKey(label))
             throw new IllegalArgumentException("Can't initiate a black node with already existing label");
-        Vertex vert = new HW2.Vertex(label);
+        Vertex vert = new homework2.Vertex(label);
         blackNodes.put(label, vert);
         checkRep();
     }
@@ -77,7 +80,7 @@ public class BipartiteGraph<obj extends Object> {
         if (blackNodes.containsKey(label) || whiteNodes.containsKey(label))
             throw new IllegalArgumentException("Can't initiate a black node with object with already existing label");
         if (node == null) throw new IllegalArgumentException("Can't initiate a black node with null object");
-        Vertex vert = new HW2.Vertex(label, node);
+        Vertex vert = new homework2.Vertex(label, node);
         blackNodes.put(label, vert);
         checkRep();
     }
@@ -92,7 +95,7 @@ public class BipartiteGraph<obj extends Object> {
         if (label == null) throw new IllegalArgumentException("Can't initiate a white node with null label");
         if (blackNodes.containsKey(label) || whiteNodes.containsKey(label))
             throw new IllegalArgumentException("Can't initiate a white node with already existing label");
-        Vertex n = new HW2.Vertex(label);
+        Vertex n = new homework2.Vertex(label);
         whiteNodes.put(label, n);
         checkRep();
     }
@@ -109,7 +112,7 @@ public class BipartiteGraph<obj extends Object> {
         if (blackNodes.containsKey(label) || whiteNodes.containsKey(label))
             throw new IllegalArgumentException("Can't initiate a white node with object with already existing label");
         if (node == null) throw new IllegalArgumentException("Can't initiate a white node with null object");
-        Vertex n = new HW2.Vertex(label, node);
+        Vertex n = new homework2.Vertex(label, node);
         whiteNodes.put(label, n);
         checkRep();
     }
@@ -126,10 +129,14 @@ public class BipartiteGraph<obj extends Object> {
             throw new IllegalArgumentException("Null argument detected when tried to add an edge");
         if (whiteNodes.containsKey(parentName) && blackNodes.containsKey(childName)) {
             whiteNodes.get(parentName).addEdgeToChild(childName, edgeLabel);
+            Edge newEdge = new Edge<obj>(parentName, childName, edgeLabel);
+            edges.put(edgeLabel, newEdge);
             blackNodes.get(childName).addEdgeFromParent(parentName, edgeLabel);
         }
         else if (blackNodes.containsKey(parentName) && whiteNodes.containsKey(childName)) {
             blackNodes.get(parentName).addEdgeToChild(childName, edgeLabel);
+            Edge newEdge = new Edge<obj>(parentName, childName, edgeLabel);
+            edges.put(edgeLabel, newEdge);
             whiteNodes.get(childName).addEdgeFromParent(parentName, edgeLabel);
         }
         else {
@@ -253,11 +260,9 @@ public class BipartiteGraph<obj extends Object> {
      * @modifies none.
      * @effects returns a collection of all the edges in the graph.
      */
-    public Collection<obj> getEdges() {
-        Collection<obj> keys = blackNodes.keySet();
-        Collection<obj> whiteKeys = whiteNodes.keySet();
-        keys.addAll(whiteKeys);
-        return keys;
+    public Collection<Edge<obj>> getEdges() {
+       Collection<Edge<obj>> edgesToReturn = edges.values();
+        return edgesToReturn;
     }
 
     private void checkRep() {

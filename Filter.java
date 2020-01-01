@@ -1,5 +1,5 @@
 
-package HW2;
+package homework2;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,6 +17,7 @@ public abstract class Filter<obj extends Object, workObj extends Object> impleme
     private obj label;
     protected ArrayList<workObj> storageBuffer;
     protected ArrayList<workObj> objectsToPass;
+    protected ArrayList<workObj> passedWorkingObjects;
 
     /**
      * @requires filterLabel != null.
@@ -28,6 +29,7 @@ public abstract class Filter<obj extends Object, workObj extends Object> impleme
         label = filterLabel;
         storageBuffer = new ArrayList<workObj>();
         objectsToPass = new ArrayList<workObj>();
+        passedWorkingObjects = new ArrayList<workObj>();
         checkRep();
     }
 
@@ -55,8 +57,20 @@ public abstract class Filter<obj extends Object, workObj extends Object> impleme
      */
     public void addToStorageBuffer(workObj objectToStorageBuffer) {
         checkRep();
-        if (storageBuffer == null) throw new IllegalArgumentException("The given working object is null");
+        if (objectToStorageBuffer == null) throw new IllegalArgumentException("The given working object is null");
         storageBuffer.add(objectToStorageBuffer);
+        checkRep();
+    }
+
+    /**
+     * @requires objectToStorageBuffer != null.
+     * @modifies this.
+     * @effects adds objectToStorageBuffer to the storageBuffer list.
+     */
+    public void addWorkingObject(workObj workObjToadd) {
+        checkRep();
+        if (workObjToadd == null) throw new IllegalArgumentException("The given working object is null");
+        passedWorkingObjects.add(workObjToadd);
         checkRep();
     }
 

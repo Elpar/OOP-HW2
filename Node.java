@@ -1,5 +1,5 @@
 
-package HW2;
+package homework2;
 
 /**
  * This class is a wrapper of the functional class nodeObj.

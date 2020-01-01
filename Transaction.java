@@ -1,5 +1,5 @@
 
-package HW2;
+package homework2;
 /**
  * This class implements a transaction in a graph of recycling channels.
  * A transaction has a product which is immutable and an amount of it which is mutable.
@@ -39,7 +39,7 @@ public class Transaction {
     
     @Override
     public String toString() {
-        return "HW2.Transaction: " + this.hashCode() + " Product: " + product + " Amount: " + amount;
+        return "homework2.Transaction: " + this.hashCode() + " Product: " + product + " Amount: " + amount;
     }
     
     

@@ -1,5 +1,5 @@
 
-package HW2;
+package homework2;
 
 import java.util.*;
 
@@ -88,9 +88,9 @@ public class SimulatorTestDriver {
 
 	/**
 	 * @requires createSimulator(simName) && addChannel(channelName)
-	 *           A transaction HW2.Transaction != null
+	 *           A transaction homework2.Transaction != null
 	 * @modifies channel named channelName
-	 * @effects pushes the HW2.Transaction into the channel named channelName in the
+	 * @effects pushes the homework2.Transaction into the channel named channelName in the
 	 *          simulator named simName.
 	 */
 	public void sendTransaction(String simName, String channelName, Transaction tx) {
@@ -102,7 +102,7 @@ public class SimulatorTestDriver {
 
 	/**
 	 * @requires addChannel(channelName)
-	 * @return a space-separated list of the HW2.Transaction values currently in the
+	 * @return a space-separated list of the homework2.Transaction values currently in the
 	 *         channel named channelName in the simulator named simName.
 	 */
 	public String listContents(String simName, String channelName) {
@@ -125,7 +125,7 @@ public class SimulatorTestDriver {
 
 	/**
 	 * @requires addParticipant(participantName)
-	 * @return The sum of all HW2.Transaction amount of stored products that one has in his storage buffer.
+	 * @return The sum of all homework2.Transaction amount of stored products that one has in his storage buffer.
 	 */
 	public int getParticipantStorageAmount(String simName, String participantName) {
 		if (simName == null)
@@ -139,7 +139,7 @@ public class SimulatorTestDriver {
 
 	/**
 	 * @requires addParticipant(participantName)
-	 * @return The sum of all HW2.Transaction amount of waiting to be recycled products that one has.
+	 * @return The sum of all homework2.Transaction amount of waiting to be recycled products that one has.
 	 */
 	public int getParticipantToRecycleAmount(String simName, String participantName) {
 		if (simName == null)
@@ -170,10 +170,9 @@ public class SimulatorTestDriver {
 	 */
 	public void printAllEdges(String simName) {
 		if (simName == null) throw new IllegalArgumentException("Given simName is null in printAllEdges");
-		Collection edges = simulators.get(simName).getEdges();
-		Iterator iter = edges.iterator();
-		while(iter.hasNext()) {
-			System.out.println(iter.next());
+		Collection<Edge<String>> edges = simulators.get(simName).getEdges();
+		for (Edge currEdge : edges) {
+			System.out.println("Edge: " + currEdge.getLabel() + ": Parent: " + currEdge.getParent() + ", Child: " + currEdge.getChild());
 		}
 	}
 }

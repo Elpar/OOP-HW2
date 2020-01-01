@@ -1,5 +1,5 @@
 
-package HW2;
+package homework2;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -71,17 +71,6 @@ public abstract class Pipe<obj extends Object, workObj extends Object> implement
         return capacity;
     }
 
-//    /**
-//     * @requires capacityRequest is a possitive integer.
-//     * @modifies none.
-//     * @effects returns true if the pipe can receive the request, false otherwise.
-//     */
-//    public boolean isEnoughCapacity(int capacityRequest) {
-//        checkRep();
-//        if (capacityRequest < 0) throw new IllegalArgumentException("Capacity value is illegal");
-//        return (capacityRequest <= capacity);
-//    }
-
     /**
      * @requires newWorkingObject != null, amount of all the objects cannot be more than (this.capacity).
      * @modifies this.
@@ -89,8 +78,10 @@ public abstract class Pipe<obj extends Object, workObj extends Object> implement
      */
     public void addWorkingObject(workObj newWorkingObject) {
         checkRep();
-        if (newWorkingObject != null) throw new IllegalArgumentException("The given working object is null");
-        if (!isEnoughAmountLeft(newWorkingObject)) throw new ArithmeticException("Not enough capacity left");
+        if (newWorkingObject == null)
+            throw new IllegalArgumentException("The given working object is null in addWorkingObject");
+        if (!isEnoughAmountLeft(newWorkingObject))
+            throw new ArithmeticException("Not enough capacity left in addWorkingObject");
         workingObjects.add(newWorkingObject);
         checkRep();
     }

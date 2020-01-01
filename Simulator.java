@@ -1,7 +1,5 @@
 
-package HW2;
-
-import com.sun.javafx.geom.Edge;
+package homework2;
 
 import java.util.Collection;
 import java.util.List;
@@ -110,7 +108,7 @@ public class Simulator<labelObj extends Object, workObj extends  Object> {
         Node<Pipe> pipeFromGraph = simulatorGraph.getNodeByLabel(pipeLabel);
         if (pipeFromGraph.getNode().isEnoughAmountLeft(item)) {
             pipeFromGraph.getNode().addWorkingObject(item);
-        } else throw new ArithmeticException("Not enough amount left in the pipe to inject the given input");
+        } else throw new ArithmeticException("Not enough room in the pipe to inject the given input");
         checkRep();
     }
 
@@ -139,7 +137,7 @@ public class Simulator<labelObj extends Object, workObj extends  Object> {
     /**
      *
      */
-    public Collection getEdges() {
+    public Collection<Edge<labelObj>> getEdges() {
         checkRep();
         return simulatorGraph.getEdges();
     }
